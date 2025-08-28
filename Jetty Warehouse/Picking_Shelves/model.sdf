@@ -9,6 +9,17 @@
           </mesh>
         </geometry>
       </visual>
+      <!--
+      <collision name="bounding_box_collider">
+        <pose>0.0 0.0 0.95 0.0 0.0 0.0</pose>
+        <geometry>
+          <box>
+            <size>0.9017 0.444312 1.9</size>
+          </box>
+        </geometry>
+      </collision>
+      -->
+
       <collision name="pickingshelvesshort_collider_box">
         <pose>0.0 0.0 0.0635 0.0 0.0 0.0</pose>
         <geometry>

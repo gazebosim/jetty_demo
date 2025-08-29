@@ -15,7 +15,8 @@ gz sim -v 4 jetty.sdf
 ## Performance notes
 
 It can take up to 1~2 minutes to load the world with all the models.
-The GUI will be non-responsive during this time.
+The GUI will be non-responsive during this time, see
+https://github.com/gazebosim/jetty_demo/issues/3
 
 To speed up loading the demo world, you can comment out different models
 in the world, which helps improve startup time and RTF.

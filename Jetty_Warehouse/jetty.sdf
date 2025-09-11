@@ -117,6 +117,98 @@
       <visualize>false</visualize>
     </light>
 
+    <!-- Mass based auto-inertia demo -->
+    <!-- Three drills are pinned on the wall:
+           1. Red pin: drill with no <inertial> tag, i.e. uses default
+              inertial values
+           2. Blue pin: drill with mass based auto inertial computation
+           3. Green pin: drill with manually specified inertial values
+
+         Publish a command to detach the drills and make them fall on to the
+         oil drums:
+
+           gz topic -t "/drill/detach" -m gz.msgs.Empty -p "unused: true"
+
+         The drill with default (bad) inertial values will drop and wobble
+         around. The behavior looks unnatural for the size of the object.
+         The drill with auto inertia computation should result in a more natural
+         movement with behavior similar to that of the drill with manually
+         specified inertial values.
+    -->
+    <light type="spot" name="drills_spotlight">
+      <pose>29 -2.5122 3.0 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <intensity>1</intensity>
+      <attenuation>
+        <range>5</range>
+        <linear>0.03</linear>
+        <constant>0.02</constant>
+        <quadratic>0.01</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <spot>
+        <inner_angle>0.1</inner_angle>
+        <outer_angle>2.0</outer_angle>
+        <falloff>0.5</falloff>
+      </spot>
+      <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
+    </light>
+
+    <include>
+      <static>true</static>
+      <pose>30.46 -2.5122 1.3258 0.0 0.0000 0</pose>
+      <name>wall_mount_bracket</name>
+      <uri>wall_mount_bracket</uri>
+      <plugin filename="gz-sim-detachable-joint-system"
+          name="gz::sim::systems::DetachableJoint">
+        <parent_link>link</parent_link>
+        <child_model>cordless_drill_default_inertia</child_model>
+        <child_link>link</child_link>
+        <detach_topic>/drill/detach</detach_topic>
+        <attach_topic>/drill/attach</attach_topic>
+      </plugin>
+      <plugin filename="gz-sim-detachable-joint-system"
+          name="gz::sim::systems::DetachableJoint">
+        <parent_link>link</parent_link>
+        <child_model>cordless_drill_auto_inertia</child_model>
+        <child_link>link</child_link>
+        <detach_topic>/drill/detach</detach_topic>
+        <attach_topic>/drill/attach</attach_topic>
+      </plugin>
+      <plugin filename="gz-sim-detachable-joint-system"
+          name="gz::sim::systems::DetachableJoint">
+        <parent_link>link</parent_link>
+        <child_model>cordless_drill</child_model>
+        <child_link>link</child_link>
+        <detach_topic>/drill/detach</detach_topic>
+        <attach_topic>/drill/attach</attach_topic>
+      </plugin>
+    </include>
+
+    <include>
+      <static>false</static>
+      <name>cordless_drill_default_inertia</name>
+      <uri>cordless_drill_default_inertia</uri>
+      <pose>30.3 -1.6487 1.1 -0.3 0.0000 1.57079</pose>
+    </include>
+
+    <include>
+      <static>false</static>
+      <name>cordless_drill_auto_inertia</name>
+      <uri>cordless_drill_auto_inertia</uri>
+      <pose>30.3 -2.5122 1.1 -0.3 0.0000 1.57079</pose>
+    </include>
+
+    <include>
+      <static>false</static>
+      <name>cordless_drill</name>
+      <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/cordless drill</uri>
+      <pose>30.3 -3.3757 1.1 -0.3 0.0000 1.57079</pose>
+    </include>
+
+    <!-- Warehouse assets -->
     <include>
       <static>true</static>
       <name>Distribution Warehouse</name>
@@ -1451,21 +1543,21 @@
       <static>true</static>
       <name>55gal_Drum</name>
       <uri>55gal_Drum</uri>
-      <pose>30.0657 -3.3757 0.0000 0.0000 -0.0000 0.0000</pose>
+      <pose>30.164 -3.3757 0.0000 0.0000 -0.0000 0.0000</pose>
     </include>
 
     <include>
       <static>true</static>
       <name>55gal_Drum.001</name>
       <uri>55gal_Drum</uri>
-      <pose>30.0657 -2.5122 0.0000 0.0000 -0.0000 0.0000</pose>
+      <pose>30.164 -2.5122 0.0000 0.0000 -0.0000 0.0000</pose>
     </include>
 
     <include>
       <static>true</static>
       <name>55gal_Drum.002</name>
       <uri>55gal_Drum</uri>
-      <pose>30.0337 -1.7386 0.0000 0.0000 -0.0000 0.0000</pose>
+      <pose>30.164 -1.6487 0.0000 0.0000 -0.0000 0.0000</pose>
     </include>
 
     <include>

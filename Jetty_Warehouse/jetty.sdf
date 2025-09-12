@@ -153,7 +153,7 @@
       <uri>gravel_platform</uri>
     </include>
 
-    <!-- Uncomment to to enable slip map visualization -->
+    <!-- Uncomment to show slip map visualization -->
     <!--
     <model name="warehouse_slip_map_visualization">
       <static>true</static>

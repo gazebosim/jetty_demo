@@ -154,6 +154,7 @@
     </include>
 
     <!-- Uncomment to to enable slip map visualization -->
+    <!--
     <model name="warehouse_slip_map_visualization">
       <static>true</static>
       <link name="link">
@@ -173,6 +174,7 @@
         </visual>
       </link>
     </model>
+    -->
 
     <include>
       <static>true</static>

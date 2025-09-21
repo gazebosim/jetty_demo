@@ -1,14 +1,23 @@
-FROM ghcr.io/gazebosim/gz-jetty:main
-ENV LANG=C
-ENV LC_ALL=C
-ARG DEBIAN_FRONTEND=noninteractive
+FROM docker.io/library/ros:rolling-ros-core-noble
 
-RUN apt-get update \
-    && apt-get install -y curl
-ENV ROS_APT_SOURCE_VERSION=1.1.0
-RUN curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
-RUN dpkg -i /tmp/ros2-apt-source.deb
-RUN apt-get update \
-    && apt-get install -y ros-dev-tools ros-rolling-ros-core \
-    && apt-get clean \
+RUN apt update \
+    && apt install -y ros2-testing-apt-source ros-dev-tools \
+    && apt dist-upgrade -y
+
+RUN apt update \
+    && apt install -y ros-rolling-gz-sim-vendor lld
+
+RUN mkdir -p /ws_rmf/src
+COPY rmf.repos rmf.repos
+RUN vcs import /ws_rmf/src < rmf.repos
+RUN rosdep init \
+    && rosdep update \
+    && rosdep install --from-paths /ws_rmf/src -yi
+RUN . /opt/ros/rolling/setup.sh \
+    && cd /ws_rmf \
+    && colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml \
+    && colcon mixin update default \
+    && colcon build --mixin release lld
+
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*

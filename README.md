@@ -20,7 +20,14 @@ distrobox enter jetty_demo
 git clone https://github.com/gazebosim/jetty_demo
 cd jetty_demo/Jetty_Warehouse
 gz sim -v 4 jetty.sdf
+```
 
+### Launching the Open-RMF demo
+
+> [!NOTE]
+> This section is actively being worked on. The instructions now only highlight running existing Open-RMF example demos.
+
+```bash
 # For ROS 2 Rolling development, don't forget to run rosdep
 source /opt/ros/rolling/setup.bash
 

@@ -158,7 +158,8 @@
          compliance parameters of the wheels based on the location of the
          vehicle. The system uses a look-up slip map that maps to the entire
          warehouse floor. To see the slip region,
-           1. Uncomment the warehouse_slip_map_visualization model below
+           1. Set the alpha component of the <diffuse> tag in the
+              warehouse_slip_map_visualization model below to 0.3
            2. Launch jetty.sdf demo world
            2. Make ramp semi-transparent (right click -> View -> Transparent)
               to reveal the green slip region.
@@ -182,8 +183,7 @@
       <uri>gravel_platform</uri>
     </include>
 
-    <!-- Uncomment to show slip map visualization -->
-    <!-- <model name="warehouse_slip_map_visualization">
+     <model name="warehouse_slip_map_visualization">
       <static>true</static>
       <link name="link">
         <pose>0 0 0 0.0 0 1.57079</pose>
@@ -194,14 +194,15 @@
             </box>
           </geometry>
           <material>
-            <diffuse>1 1 1 0.3</diffuse>
+            <!-- Increase alpha from 0.0 to 0.3 to show slip map visualization -->
+            <diffuse>1 1 1 0.0</diffuse>
             <pbr><metal>
               <albedo_map>vehicle_with_wheel_slip/warehouse_slip_map.png</albedo_map>
             </metal></pbr>
           </material>
         </visual>
       </link>
-    </model> -->
+    </model>
 
     <include>
       <static>true</static>

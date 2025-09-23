@@ -117,6 +117,35 @@
       <visualize>false</visualize>
     </light>
 
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <!--<visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>-->
+      </link>
+    </model>
+
+
+
     <include>
       <static>true</static>
       <name>Distribution Warehouse</name>
@@ -141,7 +170,7 @@
          The vehicle should slip as it moves into the slip region.
     -->
     <include>
-      <pose>25 -20 0.32 0 0 -1.57079</pose>
+      <pose>24.8 -20 0.1323 0 0 -1.57079</pose>
       <name>vehicle_with_wheel_slip</name>
       <uri>vehicle_with_wheel_slip</uri>
     </include>
@@ -154,8 +183,7 @@
     </include>
 
     <!-- Uncomment to show slip map visualization -->
-    <!--
-    <model name="warehouse_slip_map_visualization">
+    <!-- <model name="warehouse_slip_map_visualization">
       <static>true</static>
       <link name="link">
         <pose>0 0 0 0.0 0 1.57079</pose>
@@ -173,8 +201,7 @@
           </material>
         </visual>
       </link>
-    </model>
-    -->
+    </model> -->
 
     <include>
       <static>true</static>

@@ -141,7 +141,7 @@
     </model>
 
     <joint name="robout_mount" type="fixed">
-      <parent>robot_base::base_link</parent>
+      <parent>world</parent>
       <child>ur10</child>
     </joint>
 
@@ -154,43 +154,43 @@
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_shoulder_pan</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>0</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>0</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_shoulder_lift</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>1</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>1</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_elbow</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>2</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>2</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_wrist_1</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>3</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>3</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_wrist_2</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>4</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>4</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_wrist_3</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
-        <use_actuator_msg>true</use_actuator_msg>
-        <actuator_number>5</actuator_number>
+        <!-- <use_actuator_msg>true</use_actuator_msg> -->
+        <!-- <actuator_number>5</actuator_number> -->
       </plugin>
     </include>
 
     <model name="attached_camera">
-      <pose relative_to="ur10::wrist_3"/>
+      <pose relative_to="ur10::wrist_3"> 0 0.13 0.0 0 0 1.5707</pose>
       <link name="link">
         <inertial auto="true">
           <mass>0.1</mass>
@@ -237,7 +237,6 @@
     <joint name="camera_mount_joint" type="fixed">
       <parent>ur10::wrist_3</parent>
       <child>attached_camera</child>
-      <pose>0 0 0.05 0 1.5707 0</pose> <!-- Small offset and rotation from the wrist -->
     </joint>
 
     <!--

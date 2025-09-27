@@ -1,0 +1,313 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="robot_conveyor_world">
+
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Basic Scene Setup -->
+    <scene>
+      <ambient>0.1 0.2 0.2</ambient>
+      <background>0.0 0.048431 0.048431</background>
+      <shadows>true</shadows>
+      <grid>false</grid>
+    </scene>
+
+    <!-- Physics Engine Configuration -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- GUI Camera Viewpoint -->
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>4 -4 3 0 0.3 2.35</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
+    <!-- Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.0 0.0 0.0 1</ambient>
+            <diffuse>0.2 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Lighting: A soft spotlight pointing down -->
+    <light type="spot" name="soft_spotlight">
+      <pose>0 0.5 5 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <intensity>8</intensity>
+      <spot>
+        <inner_angle>0.0</inner_angle>
+        <outer_angle>2.2</outer_angle>
+        <falloff>5.0</falloff>
+      </spot>
+      <attenuation>
+        <range>100</range>
+      </attenuation>
+      <direction>0 0 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+    <light type="point" name="soft_pointlight1">
+      <pose>2 2 2 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <intensity>0.25</intensity>
+      <attenuation>
+        <linear>0</linear>
+        <range>50</range>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="point" name="soft_pointlight2">
+      <pose>-2 2 2 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <intensity>0.25</intensity>
+      <attenuation>
+        <linear>0</linear>
+        <range>50</range>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="point" name="soft_pointlight3">
+      <pose>-2 -2 2 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <intensity>0.25</intensity>
+      <attenuation>
+        <linear>0</linear>
+        <range>50</range>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="point" name="soft_pointlight4">
+      <pose>2 -2 2 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <intensity>0.25</intensity>
+      <attenuation>
+        <linear>0</linear>
+        <range>50</range>
+      </attenuation>
+      <cast_shadows>false</cast_shadows>
+    </light>
+
+    <!-- A simple static box to serve as an elevated base for the robot -->
+    <model name="robot_base">
+      <pose>0 0.75 0.4 0 0 0</pose>
+      <static>true</static>
+      <link name="base_link">
+        <collision name="collision">
+          <geometry><box><size>1 1 0.8</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1 1 0.8</size></box></geometry>
+          <material>
+            <ambient>1 0.296078 0.009804 1</ambient>
+            <diffuse>1 0.296078 0.009804 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <joint name="robout_mount" type="fixed">
+      <parent>robot_base::base_link</parent>
+      <child>ur10</child>
+    </joint>
+
+    <!-- Include the UR10 Robot Arm, placed on top of the base -->
+    <!-- The top of the base is at z=0.8m -->
+    <include>
+      <name>ur10</name>
+      <uri>model://ur10</uri>
+      <pose>0 0.75 0.8 0 0 0</pose>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_shoulder_pan</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>0</actuator_number>
+      </plugin>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_shoulder_lift</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>1</actuator_number>
+      </plugin>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_elbow</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>2</actuator_number>
+      </plugin>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_wrist_1</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>3</actuator_number>
+      </plugin>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_wrist_2</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>4</actuator_number>
+      </plugin>
+      <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+        <joint_name>j_wrist_3</joint_name>
+        <use_velocity_commands>true</use_velocity_commands>
+        <use_actuator_msg>true</use_actuator_msg>
+        <actuator_number>5</actuator_number>
+      </plugin>
+    </include>
+
+    <model name="attached_camera">
+      <pose relative_to="ur10::wrist_3"/>
+      <link name="link">
+        <inertial auto="true">
+          <mass>0.1</mass>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+        <sensor name="camera" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>320</width>
+              <height>240</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <visualize>true</visualize>
+          <topic>camera</topic>
+        </sensor>
+      </link>
+    </model>
+
+    <!--
+      Attach the included camera to the included robot's end effector.
+      This assumes the UR10 model has a link named 'wrist_3_link' and
+      the camera model has a link named 'camera_link'.
+    -->
+    <joint name="camera_mount_joint" type="fixed">
+      <parent>ur10::wrist_3</parent>
+      <child>attached_camera</child>
+      <pose>0 0 0.05 0 1.5707 0</pose> <!-- Small offset and rotation from the wrist -->
+    </joint>
+
+    <!--
+      Conveyor Belt: Assembled from 10 conveyor_block models from Gazebo Fuel.
+      Each block is 0.5m long, forming a 5m total length conveyor.
+      The blocks are placed side-by-side along the x-axis.
+    -->
+    <include>
+      <name>conveyor_0</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>-2.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_1</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>-1.75 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_2</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>-1.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_3</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>-0.75 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_4</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>-0.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_5</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>0.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_6</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>0.75 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_7</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>1.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_8</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>1.75 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+    <include>
+      <name>conveyor_9</name>
+      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+      <pose>2.25 0 0.25 0 0 1.5707</pose>
+      <static>true</static>
+    </include>
+
+  </world>
+</sdf>
+
+
+

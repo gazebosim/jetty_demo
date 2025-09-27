@@ -2,11 +2,11 @@
 <sdf version="1.7">
   <world name="robot_conveyor_world">
 
-    <plugin
-      filename="gz-sim-sensors-system"
-      name="gz::sim::systems::Sensors">
-      <render_engine>ogre2</render_engine>
-    </plugin>
+    <!-- <plugin -->
+    <!--   filename="gz-sim-sensors-system" -->
+    <!--   name="gz::sim::systems::Sensors"> -->
+    <!--   <render_engine>ogre2</render_engine> -->
+    <!-- </plugin> -->
 
     <!-- Basic Scene Setup -->
     <scene>
@@ -16,13 +16,18 @@
       <grid>false</grid>
     </scene>
 
-    <!-- Physics Engine Configuration -->
-    <physics type="ode">
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-    </physics>
-
+    <gui>
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <camera_pose>-0.18 -0.9 2 0 0.5 1.57</camera_pose>
+      </plugin>
+    </gui>
     <!-- Ground Plane -->
     <model name="ground_plane">
       <static>true</static>

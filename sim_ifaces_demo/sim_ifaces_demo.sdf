@@ -23,14 +23,6 @@
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
 
-    <!-- GUI Camera Viewpoint -->
-    <gui fullscreen="0">
-      <camera name="user_camera">
-        <pose>4 -4 3 0 0.3 2.35</pose>
-        <view_controller>orbit</view_controller>
-      </camera>
-    </gui>
-
     <!-- Ground Plane -->
     <model name="ground_plane">
       <static>true</static>
@@ -75,55 +67,60 @@
       </attenuation>
       <direction>0 0 -1</direction>
       <cast_shadows>true</cast_shadows>
+      <visualize>false</visualize>
     </light>
     <light type="point" name="soft_pointlight1">
       <pose>2 2 2 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
-      <intensity>0.25</intensity>
+      <intensity>0.1</intensity>
       <attenuation>
         <linear>0</linear>
         <range>50</range>
       </attenuation>
       <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
     </light>
     <light type="point" name="soft_pointlight2">
       <pose>-2 2 2 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
-      <intensity>0.25</intensity>
+      <intensity>0.1</intensity>
       <attenuation>
         <linear>0</linear>
         <range>50</range>
       </attenuation>
       <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
     </light>
     <light type="point" name="soft_pointlight3">
       <pose>-2 -2 2 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
-      <intensity>0.25</intensity>
+      <intensity>0.1</intensity>
       <attenuation>
         <linear>0</linear>
         <range>50</range>
       </attenuation>
       <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
     </light>
     <light type="point" name="soft_pointlight4">
       <pose>2 -2 2 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>0.2 0.2 0.2 1</specular>
-      <intensity>0.25</intensity>
+      <intensity>0.1</intensity>
       <attenuation>
         <linear>0</linear>
         <range>50</range>
       </attenuation>
       <cast_shadows>false</cast_shadows>
+      <visualize>false</visualize>
     </light>
 
     <!-- A simple static box to serve as an elevated base for the robot -->
     <model name="robot_base">
-      <pose>0 0.75 0.4 0 0 0</pose>
+      <pose>0 0.75 0.2 0 0 0</pose>
       <static>true</static>
       <link name="base_link">
         <collision name="collision">
@@ -150,7 +147,7 @@
     <include>
       <name>ur10</name>
       <uri>model://ur10</uri>
-      <pose>0 0.75 0.8 0 0 0</pose>
+      <pose relative_to="robot_base">0 0.0 0.4 0 0 0</pose>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_shoulder_pan</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
@@ -223,7 +220,6 @@
           </camera>
           <always_on>1</always_on>
           <update_rate>30</update_rate>
-          <visualize>true</visualize>
           <topic>camera</topic>
         </sensor>
       </link>
@@ -244,66 +240,68 @@
       Each block is 0.5m long, forming a 5m total length conveyor.
       The blocks are placed side-by-side along the x-axis.
     -->
-    <include>
-      <name>conveyor_0</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>-2.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_1</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>-1.75 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_2</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>-1.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_3</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>-0.75 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_4</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>-0.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_5</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>0.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_6</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>0.75 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_7</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>1.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_8</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>1.75 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
-    <include>
-      <name>conveyor_9</name>
-      <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
-      <pose>2.25 0 0.25 0 0 1.5707</pose>
-      <static>true</static>
-    </include>
+    <model name="conveyor_belt">
+      <include>
+        <name>conveyor_0</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>-2.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_1</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>-1.75 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_2</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>-1.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_3</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>-0.75 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_4</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>-0.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_5</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>0.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_6</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>0.75 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_7</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>1.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_8</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>1.75 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+      <include>
+        <name>conveyor_9</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
+        <pose>2.25 0 0 0 0 1.5707</pose>
+        <static>true</static>
+      </include>
+    </model>
 
   </world>
 </sdf>

@@ -13,7 +13,8 @@
       <ambient>0.1 0.2 0.2</ambient>
       <background>0.0 0.048431 0.048431</background>
       <shadows>true</shadows>
-      <grid>false</grid>
+      <grid>true</grid>
+      <origin_visual>true</origin_visual>
     </scene>
 
     <gui>
@@ -25,7 +26,8 @@
         </gz-gui>
         <engine>ogre2</engine>
         <scene>scene</scene>
-        <camera_pose>-0.18 -0.9 2 0 0.5 1.57</camera_pose>
+        <camera_pose>-2.52 -1.12 1.9  0 0.579199 0.947343</camera_pose>
+
       </plugin>
     </gui>
     <!-- Ground Plane -->
@@ -239,13 +241,51 @@
       <parent>ur10::wrist_3</parent>
       <child>attached_camera</child>
     </joint>
-
     <!--
       Conveyor Belt: Assembled from 10 conveyor_block models from Gazebo Fuel.
       Each block is 0.5m long, forming a 5m total length conveyor.
       The blocks are placed side-by-side along the x-axis.
     -->
     <model name="conveyor_belt">
+      <frame name="tray_start">
+        <pose relative_to="conveyor_0">0 0 0.51  0 0 0</pose>
+      </frame>
+
+      <model name="belt_surface">
+        <pose>0 0 0.5  0 0 0</pose>
+        <link name="base">
+          <collision name="collision">
+            <geometry>
+              <box>
+                <size>5.0 0.4 0.01</size>
+              </box>
+            </geometry>
+            <surface>
+              <friction>
+                <ode>
+                  <mu>0</mu>
+                  <mu2>0</mu2>
+                </ode>
+              </friction>
+            </surface>
+          </collision>
+          <visual name="visual">
+            <geometry>
+              <box>
+                <size>5.0 0.4 0.01</size>
+              </box>
+            </geometry>
+            <material>
+              <diffuse>0.4 0.5 0.0</diffuse>
+              <emissive>0.1 0.1 0.1</emissive>
+            </material>
+          </visual>
+        </link>
+        <joint name="belt_to_world" type="fixed">
+          <parent>world</parent>
+          <child>base</child>
+        </joint>
+      </model>
       <include>
         <name>conveyor_0</name>
         <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/conveyor_block</uri>
@@ -308,6 +348,12 @@
       </include>
     </model>
 
+    <include>
+      <pose relative_to="conveyor_belt::tray_start"/>
+      <uri>
+        https://fuel.gazebosim.org/1.0/Open-RMF/models/tray
+      </uri>
+    </include>
   </world>
 </sdf>
 

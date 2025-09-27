@@ -2,11 +2,11 @@
 <sdf version="1.7">
   <world name="robot_conveyor_world">
 
-    <!-- <plugin -->
-    <!--   filename="gz-sim-sensors-system" -->
-    <!--   name="gz::sim::systems::Sensors"> -->
-    <!--   <render_engine>ogre2</render_engine> -->
-    <!-- </plugin> -->
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <!-- Basic Scene Setup -->
     <scene>
@@ -46,7 +46,7 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>100 100</size>
+              <size>2000 2000</size>
             </plane>
           </geometry>
           <material>
@@ -158,30 +158,35 @@
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_shoulder_pan</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
+        <initial_position>-1.57</initial_position>
         <!-- <use_actuator_msg>true</use_actuator_msg> -->
         <!-- <actuator_number>0</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_shoulder_lift</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
+        <initial_position>-1.57</initial_position>
         <!-- <use_actuator_msg>true</use_actuator_msg> -->
         <!-- <actuator_number>1</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_elbow</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
+        <initial_position>1.5</initial_position>
         <!-- <use_actuator_msg>true</use_actuator_msg> -->
         <!-- <actuator_number>2</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_wrist_1</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
+        <initial_position>-1.5</initial_position>
         <!-- <use_actuator_msg>true</use_actuator_msg> -->
         <!-- <actuator_number>3</actuator_number> -->
       </plugin>
       <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
         <joint_name>j_wrist_2</joint_name>
         <use_velocity_commands>true</use_velocity_commands>
+        <initial_position>1.5</initial_position>
         <!-- <use_actuator_msg>true</use_actuator_msg> -->
         <!-- <actuator_number>4</actuator_number> -->
       </plugin>

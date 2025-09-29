@@ -7,7 +7,7 @@ Usage:
 
 ```bash
 git clone https://github.com/gazebosim/jetty_demo
-cd Jetty_Warehouse
+cd jetty_demo/jetty_demo/worlds
 gz sim -v 4 jetty.sdf
 ```
 

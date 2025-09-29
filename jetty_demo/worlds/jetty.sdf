@@ -17,7 +17,7 @@
     <plugin
       filename="gz-sim-user-commands-system"
       name="gz::sim::systems::UserCommands">
-    </plugin>  
+    </plugin>
     <physics name="fast" type="ignored">
       <max_step_size>0.004</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -1883,7 +1883,7 @@
       <uri>Pallet_Standard</uri>
       <pose>-7.0000 -7.7842 0.0000 0.0000 0.0000 0.0000</pose>
     </include>
-    
+
     <include>
       <static>true</static>
       <name>Pallet_Rack</name>

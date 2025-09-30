@@ -43,32 +43,12 @@ OBJECTS_TO_SPAWN = [
         "size": (0.171647, 0.140048, 0.043601)
     },
     {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Shark",
-        "size": (0.175842, 0.387062, 0.161213)
+        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_3",
+        "size": (0.288729, 0.06852, 0.127241)
     },
     {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Sootheze_Toasty_Orca",
-        "size": (0.214269, 0.407276, 0.144775)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
-        "size": (0.153558, 0.152784, 0.0508)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/LEUCIPPUS_ADIPURE",
-        "size": (0.103739, 0.269211, 0.110239)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s",
-        "size": (0.092468, 0.091824, 0.148148)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Chelsea_BlkHeelPMP_DwxLtZNxLZZ",
-        "size": (0.085963, 0.24076, 0.171623)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/SpiderMan_Titan_Hero_12Inch_Action_Figure_oo1qph4wwiW",
-        "size": (0.094259, 0.074468, 0.288126)
+        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_4",
+        "size": (0.136815, 0.058722, 0.092725)
     },
 ]
 

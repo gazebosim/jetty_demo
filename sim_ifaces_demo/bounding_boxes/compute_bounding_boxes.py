@@ -28,8 +28,8 @@ def generate_world_sdf(model_uris: list) -> str:
     spaced out to prevent initial collisions.
     """
     include_tags = []
-    # Space models 10 meters apart along the x-axis.
-    spacing = 10.0
+    # Space models 1 meters apart along the x-axis.
+    spacing = 1.0
     for i, uri in enumerate(model_uris):
         model_name = get_model_name_from_uri(uri)
         if model_name:
@@ -56,19 +56,15 @@ def main():
     model_uris = [
         "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Weisshai_Great_White_Shark",
         "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Vtech_Roll_Learn_Turtle",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Ubisoft_RockSmith_Real_Tone_Cable_Xbox_360",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Shark",
         "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Sootheze_Toasty_Orca",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/LEUCIPPUS_ADIPURE",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Crayola_Washable_Sidewalk_Chalk_16_pack_wDZECiw7J6s",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Chelsea_BlkHeelPMP_DwxLtZNxLZZ",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/SpiderMan_Titan_Hero_12Inch_Action_Figure_oo1qph4wwiW"
+        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_3",
+        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_4",
     ]
 
     model_names = [get_model_name_from_uri(uri) for uri in model_uris if uri]
 
     world_sdf_string = generate_world_sdf(model_uris)
+    print(world_sdf_string)
 
     world_file = None
     try:

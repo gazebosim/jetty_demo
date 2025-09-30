@@ -27,30 +27,32 @@ from simulation_interfaces.srv import (
     GetEntityState, ResetSimulation, SetEntityState, SpawnEntity
 )
 
+# --- Bounding Box Calculation Results ---
+#
+# Model: Lidar 2d v2
+#   -> Bounding Box Min: -0.03 -0.03 -9.8e-06
+#   -> Bounding Box Max: 0.03 0.03 0.0869902
+#   -> Bounding Box Center: 0 0 0.0434902
+#   -> Bounding Box Size: 0.06 0.06 0.087
+#
+# Model: Lidar 3d v1
+#   -> Bounding Box Min: 0.9484 -0.0516 -9.8e-06
+#   -> Bounding Box Max: 1.0516 0.0516 0.0716902
+#   -> Bounding Box Center: 1 0 0.0358402
+#   -> Bounding Box Size: 0.1032 0.1032 0.0717
 # A list of objects to be spawned, including their Gazebo Fuel URI and bounding box size.
 # The size is now used to ensure proper placement on the tray.
 OBJECTS_TO_SPAWN = [
     {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Weisshai_Great_White_Shark",
-        "size": (0.143696, 0.167077, 0.074769)
+        "uri": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2",
+        "size": [0.06, 0.06, 0.087],
     },
     {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Vtech_Roll_Learn_Turtle",
-        "size": (0.169432, 0.232494, 0.117513)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Ubisoft_RockSmith_Real_Tone_Cable_Xbox_30",
-        "size": (0.171647, 0.140048, 0.043601)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_3",
-        "size": (0.288729, 0.06852, 0.127241)
-    },
-    {
-        "uri": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_4",
-        "size": (0.136815, 0.058722, 0.092725)
+        "uri": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1",
+        "size": [0.10320000000000007, 0.1032, 0.0717],
     },
 ]
+
 
 class ConveyorController(Node):
     """
@@ -72,8 +74,8 @@ class ConveyorController(Node):
             namespace='',
             parameters=[
                 ('inspection_time', 5.0),
-                ('tray_speed', 0.25),
-                ('inspection_x_position', 2.0),
+                ('tray_speed', 0.5),
+                ('inspection_x_position', 0.0),
                 ('tray_name', 'tray'),
                 ('num_objects_to_spawn', 4),
                 ('tray_width', 0.4),
@@ -116,13 +118,13 @@ class ConveyorController(Node):
 
             # 2. Spawn a random selection of objects
             self.spawn_objects()
-            time.sleep(10.5)
+            time.sleep(1.5)
 
             # # 3. Start moving the tray
-            # self.set_tray_velocity(is_moving=True)
+            self.set_tray_velocity(is_moving=True)
             #
             # # 4. Monitor the tray until it reaches the inspection point
-            # self.monitor_tray_position()
+            self.monitor_tray_position()
 
             # 5. Stop the tray for inspection
             self.set_tray_velocity(is_moving=False)
@@ -285,9 +287,9 @@ class ConveyorController(Node):
             linear_velocity.x = speed
         else:
             self.get_logger().info(f"Stopping '{tray_name}'.")
-            linear_velocity.x = 0.0
+            linear_velocity.x = -0.2
         
-        request.state = EntityState(twist=Twist(linear=linear_velocity))
+        request.state = EntityState(pose=self.get_tray_pose(), twist=Twist(linear=linear_velocity))
 
         future = self._set_state_client.call_async(request)
         rclpy.spin_until_future_complete(self, future)
@@ -323,6 +325,7 @@ class ConveyorController(Node):
 
             if response and response.result.result == Result.RESULT_OK:
                 current_x = response.state.pose.position.x
+                print("Current pos: ", current_x)
                 if current_x >= inspection_x:
                     self.get_logger().info(f"Tray has reached inspection point at x={current_x:.2f}.")
                     break
@@ -330,7 +333,7 @@ class ConveyorController(Node):
                 self.get_logger().warning(f"Failed to get state for '{tray_name}': {response.result.error_message}")
                 break
             
-            time.sleep(0.1)
+            time.sleep(0.05)
 
     @staticmethod
     def yaw_to_quaternion(yaw: float) -> Quaternion:

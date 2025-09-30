@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import tempfile
 from urllib.parse import urlparse
@@ -41,12 +42,13 @@ def generate_world_sdf(model_uris: list) -> str:
               <pose>{pose}</pose>
             </include>""")
 
-    return f"""
-    <sdf version='1.7'>
-      <world name='bounding_box_world'>
-        {''.join(include_tags)}
-      </world>
-    </sdf>
+    return f"""\
+<?xml version="1.0" ?>
+<sdf version='1.7'>
+    <world name='bounding_box_world'>
+    {''.join(include_tags)}
+    </world>
+</sdf>
     """
 
 def main():
@@ -54,14 +56,12 @@ def main():
     Main function to calculate and print bounding boxes for a list of models.
     """
     model_uris = [
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Weisshai_Great_White_Shark",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Vtech_Roll_Learn_Turtle",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Sootheze_Toasty_Orca",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_3",
-        "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Dino_4",
+        "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2",
+        "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1",
     ]
 
     model_names = [get_model_name_from_uri(uri) for uri in model_uris if uri]
+    model_name_to_uri = dict(zip(model_names, model_uris))
 
     world_sdf_string = generate_world_sdf(model_uris)
     print(world_sdf_string)
@@ -162,18 +162,27 @@ def main():
         fixture.finalize()
         fixture.server().run(True, 60, False)
 
+        json_output = []
+
         # Print results
         print("--- Bounding Box Calculation Results ---")
         for name in model_names:
+            data = {
+                "uri": model_name_to_uri[name]
+            }
             print(f"\nModel: {name}")
             if name in results:
                 bbox = results[name]
-                print(f"  -> Bounding Box Min: {bbox.min()}")
-                print(f"  -> Bounding Box Max: {bbox.max()}")
-                print(f"  -> Bounding Box Center: {bbox.center()}")
-                print(f"  -> Bounding Box Size: {bbox.size()}")
+                # print(f"  -> Bounding Box Min: {bbox.min()}")
+                # print(f"  -> Bounding Box Max: {bbox.max()}")
+                # print(f"  -> Bounding Box Center: {bbox.center()}")
+                # print(f"  -> Bounding Box Size: {bbox.size()}")
+                size = bbox.size()
+                data["size"] = [size.x(), size.y(), size.z()]
+                json_output.append(data)
             else:
                 print("  -> Failed to determine bounding box.")
+        print(json.dumps(json_output))
 
     finally:
         if world_file and os.path.exists(world_file):

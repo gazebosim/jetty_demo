@@ -11,10 +11,10 @@
     <!-- Basic Scene Setup -->
     <scene>
       <ambient>0.1 0.2 0.2</ambient>
+      <!-- <ambient>1 1 1</ambient> -->
       <background>0.0 0.048431 0.048431</background>
       <shadows>true</shadows>
       <grid>true</grid>
-      <origin_visual>true</origin_visual>
     </scene>
 
     <gui>

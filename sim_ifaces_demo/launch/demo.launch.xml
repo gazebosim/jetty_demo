@@ -1,0 +1,10 @@
+<launch>
+    <gz_server world_sdf_file="$(find-pkg-share sim_ifaces_demo)/worlds/sim_ifaces_demo.sdf"/>
+
+    <!-- Start Gazebo GUI Client using an executable tag -->
+    <executable cmd="gz sim -g" output="screen"/>
+
+    <!-- Start the conveyor controller node -->
+    <!-- <node pkg="sim_ifaces_demo" exec="conveyor_controller" name="conveyor_controller" output="screen"/> -->
+</launch>
+

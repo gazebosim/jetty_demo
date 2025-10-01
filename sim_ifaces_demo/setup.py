@@ -13,12 +13,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*')),
-        (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
-        # TODO(azeey): Find a nicer way to do this
-        (os.path.join('share', package_name, 'models'), glob('models/*.*')),
-        (os.path.join('share', package_name, 'models', 'ur10'), glob('models/ur10/*.*')),
-        (os.path.join('share', package_name, 'models', 'ur10', 'meshes'), glob('models/ur10/meshes/*.*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

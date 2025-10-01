@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<sdf version='1.7'>
+  <world name='bounding_box_world'>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <name>Weisshai_Great_White_Shark</name>
+      <uri>Weisshai_Great_White_Shark</uri>
+      <pose>0.0 0 1 0 0 0</pose>
+    </include>
+    <include>
+      <name>Vtech_Roll_Learn_Turtle</name>
+      <uri>Vtech_Roll_Learn_Turtle</uri>
+      <pose>1.0 0 1 0 0 0</pose>
+    </include>
+    <include>
+      <name>Sootheze_Toasty_Orca</name>
+      <uri>Sootheze_Toasty_Orca</uri>
+      <pose>2.0 0 1 0 0 0</pose>
+    </include>
+    <include>
+      <name>Dino_3</name>
+      <uri>Dino_3</uri>
+      <pose>3.0 0 1 0 0 0</pose>
+    </include>
+    <include>
+      <name>Dino_4</name>
+      <uri>Dino_4</uri>
+      <pose>4.0 0 1 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

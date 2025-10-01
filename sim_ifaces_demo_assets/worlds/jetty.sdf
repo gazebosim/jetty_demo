@@ -140,6 +140,8 @@
       <uri>Distribution_Warehouse</uri>
     </include>
 
+    <model name="Picking_Shelves_Group">
+      <static>true</static>
     <include>
       <static>true</static>
       <name>Picking_Shelves</name>
@@ -825,7 +827,7 @@
       <uri>Picking_Shelves</uri>
       <pose>16.7388 5.9492 0.0000 0.0000 -0.0000 1.5708</pose>
     </include>
-    <!--
+
     <include>
       <static>true</static>
       <name>Picking_Shelves.098</name>
@@ -1462,7 +1464,7 @@
       <uri>Picking_Shelves</uri>
       <pose>-30.2166 14.0853 5.1199 0.0000 -0.0000 1.5708</pose>
     </include>
-    -->
+    </model>
 
     <include>
       <static>true</static>
@@ -1758,6 +1760,8 @@
       <pose>0.4433 17.9255 -0.0000 0.0000 -0.0000 1.6441</pose>
     </include>
 
+    <model name="Pallet_Group">
+      <static>true</static>
     <include>
       <static>true</static>
       <name>Pallet_Standard</name>
@@ -1883,7 +1887,7 @@
       <uri>Pallet_Standard</uri>
       <pose>-7.0000 -7.7842 0.0000 0.0000 0.0000 0.0000</pose>
     </include>
-    
+
     <include>
       <static>true</static>
       <name>Pallet_Rack</name>
@@ -2345,6 +2349,11 @@
       <uri>Pallet_Rack_Section</uri>
       <pose>18.1437 -25.2694 0.0000 0.0000 0.0000 0.0000</pose>
     </include>
+    </model>
 
+    <include merge="true">
+      <pose>0 -5 0  0 0 0</pose>
+      <uri>sim_ifaces_demo.sdf</uri>
+    </include>
   </world>
 </sdf>

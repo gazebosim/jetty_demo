@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+Copyright 2020 Google LLC.
+
+This work is licensed under the Creative Commons Attribution 4.0
+International License. To view a copy of this license, visit
+http://creativecommons.org/licenses/by/4.0/ or send a letter
+to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+-->
+<sdf version="1.6">
+  <model name="Vtech_Roll_Learn_Turtle">
+    <link name="link_0">
+      <inertial>
+        <pose>-0.0074253953550022459 0.0096194591663119992 0.053467291776217729 0 0 0</pose>
+        <mass>1.5637666710232736</mass>
+        <inertia>
+          <ixx>0.0049467236624558507</ixx>
+          <ixy>-1.6762027391352769e-05</ixy>
+          <ixz>1.111244657988119e-05</ixz>
+          <iyy>0.0030870699418469052</iyy>
+          <iyz>0.00043077362035152125</iyz>
+          <izz>0.0058365300717086186</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/model.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision_0">
+        <density>930.0</density> <!-- Natural rubber -->
+        <geometry>
+          <mesh>
+            <uri>meshes/model.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

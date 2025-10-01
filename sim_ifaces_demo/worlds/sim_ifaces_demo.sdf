@@ -148,7 +148,7 @@
       </link>
     </model>
 
-    <joint name="robout_mount" type="fixed">
+    <joint name="robot_mount" type="fixed">
       <parent>world</parent>
       <child>ur10</child>
     </joint>
@@ -272,7 +272,7 @@
             <surface>
               <friction>
                 <ode>
-                  <mu>0</mu>
+                  <mu>0.0</mu>
                   <mu2>1</mu2>
                 </ode>
               </friction>

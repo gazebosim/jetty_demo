@@ -1,0 +1,6 @@
+- The ROS 2 Simulation Interfaces define a standard set of ROS 2 service, message and action definitions for controlling and interacting with simulation environments.
+  - These interfaces are simulator-agnostic and aim to provide a unified way to control and observe simulation using ROS 2.
+- Conveyor belt orchestration via Simulation Interfaces
+  - Uses services: GetEntityState, ResetSimulation, SetEntityState, SpawnEntity
+  - Models can be spawned from file, string, or Fuel. This demo will show Fuel
+- Bounding box calculation using Python API

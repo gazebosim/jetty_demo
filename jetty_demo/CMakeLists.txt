@@ -8,9 +8,9 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 
-# install(DIRECTORY configs DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY configs DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
-# install(DIRECTORY maps DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY maps DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY worlds DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY models DESTINATION share/${PROJECT_NAME})
 # install(DIRECTORY rviz DESTINATION share/${PROJECT_NAME})
@@ -29,7 +29,7 @@ string(REGEX MATCH "[^\/]+$" world_name  ${no_extension_path})
 
 set(output_world_name ${world_name})
 set(output_dir ${CMAKE_CURRENT_BINARY_DIR}/maps/${output_world_name})
-set(output_world_path ${output_dir}/${output_world_name}.world)
+set(output_world_path ${output_dir}/${output_world_name}.sdf)
 set(output_model_dir ${output_dir}/models)
 
 ##############################################################################
@@ -51,6 +51,7 @@ set(output_nav_graphs_phony ${output_nav_graphs_dir}/phony)
 add_custom_command(
   OUTPUT ${output_nav_graphs_phony}
   COMMAND ros2 run rmf_building_map_tools building_map_generator nav ${building_map_path} ${output_nav_graphs_dir}
+  COMMAND sed -i 's|<uri>model:\/\/DeliveryRobot<\/uri>|<uri>https:\/\/fuel.gazebosim.org\/1.0\/Open-RMF\/models\/DeliveryRobot<\/uri>|g' ${output_world_path}
   DEPENDS ${building_map_path} ${output_world_path}
 )
 

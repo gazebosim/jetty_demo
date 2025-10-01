@@ -1,7 +1,7 @@
 coordinate_system: reference_image
 crowd_sim:
   agent_groups:
-    - {agents_name: [deliverybot], agents_number: 1, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
+    - {agents_name: [deliveryRobot1], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
   agent_profiles:
     - {ORCA_tau: 1, ORCA_tauObst: 0.40000000000000002, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
   enable: 0
@@ -17,30 +17,46 @@ graphs:
 levels:
   L1:
     drawing:
-      filename: out.png
+      filename: high_res.png
     elevation: 0
-    floors:
-      - parameters: {ceiling_scale: [3, 1], ceiling_texture: [1, blue_linoleum], indoor: [2, 0], texture_name: [1, blue_linoleum], texture_rotation: [3, 0], texture_scale: [3, 1]}
-        vertices: [0, 7, 8, 1]
     lanes:
-      - [2, 3, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
-      - [3, 4, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
-      - [4, 5, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
-      - [5, 2, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
-      - [2, 6, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [2, 8, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [8, 9, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [9, 10, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [10, 11, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [8, 11, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [10, 12, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [12, 13, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [13, 14, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [12, 15, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
     layers:
-      {}
+      correct_location:
+        color: [1, 0, 0, 0.5]
+        filename: high_res.png
+        transform:
+          scale: 0.25
+          translation_x: 64
+          translation_y: 61
+          yaw: 3.1415926535897931
+        visible: true
     measurements:
-      - [0, 1, {distance: [3, 50]}]
+      - [0, 1, {distance: [3, 125]}]
     vertices:
-      - [0.012, -0.012, 0, ""]
-      - [100.026, 0.028000000000000001, 0, ""]
-      - [30.068999999999999, 48.234000000000002, 0, wp1]
-      - [29.957999999999998, 69.206999999999994, 0, wp4]
-      - [37.060000000000002, 69.317999999999998, 0, wp3]
-      - [36.948999999999998, 48.012, 0, wp2]
-      - [29.962, 44.597000000000001, 0, charger, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliverybot], spawn_robot_type: [1, Open-RMF/DeliveryRobot]}]
-      - [0.050999999999999997, 100.014, 0, ""]
-      - [100.012, 100.01900000000001, 0, ""]
+      - [0.044999999999999998, 0.0080000000000000002, 0, ""]
+      - [500.00400000000002, -0.0040000000000000001, 0, ""]
+      - [-29.440999999999999, 17.379000000000001, 0, deliveryRobotCharger1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot1], spawn_robot_type: [1, DeliveryRobot]}]
+      - [48.819000000000003, 27.151, 0, ""]
+      - [256.16800000000001, 239.64099999999999, 0, ""]
+      - [503.22399999999999, 489.77300000000002, 0, ""]
+      - [1.5089999999999999, 5.423, 0, ""]
+      - [-53.267000000000003, 47.127000000000002, 0, ""]
+      - [-23.349, 6.7249999999999996, 0, ""]
+      - [-23.349, -32.953000000000003, 0, ""]
+      - [-8.2940000000000005, -32.953000000000003, 0, ""]
+      - [-8.2940000000000005, 6.4699999999999998, 0, ""]
+      - [5.8040000000000003, -32.953000000000003, 0, ""]
+      - [19.902000000000001, -32.953000000000003, 0, ""]
+      - [33.558999999999997, -32.953000000000003, 0, ""]
+      - [5.8040000000000003, -12.891, 0, inside]
 lifts: {}
 name: jetty_demo

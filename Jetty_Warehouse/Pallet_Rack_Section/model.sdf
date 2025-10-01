@@ -9,6 +9,7 @@
           </mesh>
         </geometry>
       </visual>
+<!--
       <collision name="box014034_collider_box">
         <pose>0.0 -0.647701 1.473205 0.0 -0.0 0.0</pose>
         <geometry>
@@ -97,6 +98,7 @@
           </box>
         </geometry>
       </collision>
+-->
     </link>
   </model>
 </sdf>

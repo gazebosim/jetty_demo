@@ -9,7 +9,6 @@
           </mesh>
         </geometry>
       </visual>
-      <!--
       <collision name="bounding_box_collider">
         <pose>0.0 0.0 0.95 0.0 0.0 0.0</pose>
         <geometry>
@@ -18,8 +17,7 @@
           </box>
         </geometry>
       </collision>
-      -->
-
+      <!--
       <collision name="pickingshelvesshort_collider_box">
         <pose>0.0 0.0 0.0635 0.0 0.0 0.0</pose>
         <geometry>
@@ -108,6 +106,7 @@
           </box>
         </geometry>
       </collision>
+      -->
     </link>
   </model>
 </sdf>

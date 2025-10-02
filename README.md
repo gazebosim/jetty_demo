@@ -11,35 +11,48 @@ cd jetty_demo/jetty_demo/worlds
 gz sim -v 4 jetty.sdf
 ```
 
-## Development on distrobox
+Or launch it from `[rocker](https://github.com/osrf/rocker?tab=readme-ov-file#installation)`,
+
+```bash
+rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.launch.xml
+
+# Don't forget to start the sim!
+```
+
+### Launching the Open-RMF demo
+
+![](media/jetty_rmf_demo.png)
+
+```bash
+rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo demo.launch.xml
+
+# Don't forget to start the sim!
+```
+
+In a separate terminal `exec` into the same `rocker` container, to run some tasks,
+
+```bash
+# Get the container ID
+docker ps
+
+# Exec into the container ID
+docker exec -it <CONTAINER_ID> bash
+
+# Run some Open-RMF patrol tasks
+source /ws_jetty/install/setup.bash
+export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+ros2 run rmf_demos_tasks dispatch_patrol -p workcell_1 workcell_2 workcell_3 -n 10 -st 0 --use_sim_time -F deliveryRobot -R deliveryRobot1
+ros2 run rmf_demos_tasks dispatch_patrol -p workcell_3 workcell_2 workcell_1 -n 10 -st 0 --use_sim_time -F deliveryRobot -R deliveryRobot2
+```
+
+## Development in distrobox
 
 ```bash
 distrobox create -n jetty_demo --hostname jetty_demo -i ghcr.io/gazebosim/jetty_demo:main
 distrobox enter jetty_demo
 
-git clone https://github.com/gazebosim/jetty_demo
-cd jetty_demo/Jetty_Warehouse
-gz sim -v 4 jetty.sdf
-```
-
-### Launching the Open-RMF demo
-
-> [!NOTE]
-> This section is actively being worked on. The instructions now only highlight running existing Open-RMF example demos.
-
-```bash
-# For ROS 2 Rolling development, don't forget to run rosdep
-source /opt/ros/rolling/setup.bash
-
-# We also recommend using rmw_zenoh_cpp since it comes installed on rolling
-# TODO: start zenoh router from demo launch file eventually
-export RMW_IMPLEMENTATION=rmw_zenoh_cpp
-ros2 run rmw_zenoh_cpp rmw_zenohd
-
-# For RMF development, we are using custom branches for packages for now that
-# are affected by Qt migration
-source /ws_rmf/install/setup.bash
-ros2 launch rmf_demos_gz office.launch.xml
+source /ws_jetty/install/setup.bash
+ros2 launch jetty_demo world.launch.xml
 ```
 
 ## Performance notes

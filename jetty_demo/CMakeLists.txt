@@ -13,8 +13,6 @@ install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY maps DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY worlds DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY models DESTINATION share/${PROJECT_NAME})
-# install(DIRECTORY rviz DESTINATION share/${PROJECT_NAME})
-# install(DIRECTORY params DESTINATION share/${PROJECT_NAME})
 
 ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.dsv.in")
 
@@ -38,7 +36,7 @@ set(output_model_dir ${output_dir}/models)
 
 add_custom_command(
   DEPENDS ${building_map_path}
-  COMMAND ros2 run rmf_building_map_tools building_map_generator gazebo ${building_map_path} ${output_world_path} ${output_model_dir} --TEMPLATE_WORLD_FILE ${CMAKE_CURRENT_SOURCE_DIR}/worlds/jetty_template.sdf --SKIP_CAMERA_POSE
+  COMMAND ros2 run rmf_building_map_tools building_map_generator gazebo ${building_map_path} ${output_world_path} ${output_model_dir} --TEMPLATE_WORLD_FILE ${CMAKE_CURRENT_SOURCE_DIR}/worlds/jetty.sdf --SKIP_CAMERA_POSE
   OUTPUT ${output_world_path}
 )
 
@@ -52,6 +50,7 @@ add_custom_command(
   OUTPUT ${output_nav_graphs_phony}
   COMMAND ros2 run rmf_building_map_tools building_map_generator nav ${building_map_path} ${output_nav_graphs_dir}
   COMMAND sed -i 's|<uri>model:\/\/DeliveryRobot<\/uri>|<uri>https:\/\/fuel.gazebosim.org\/1.0\/Open-RMF\/models\/DeliveryRobot<\/uri>|g' ${output_world_path}
+  COMMAND sed -i 's|<max_step_size>0.004<\/max_step_size>|<max_step_size>0.02<\/max_step_size>|g' ${output_world_path}
   DEPENDS ${building_map_path} ${output_world_path}
 )
 

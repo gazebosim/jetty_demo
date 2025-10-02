@@ -67,7 +67,7 @@
   </group>
 
   <!-- Simulator launch -->
-  <executable cmd="gz sim -v 4 $(var gz_world_file)" output="both">
+  <executable cmd="gz sim -v 4 $(var gz_world_file) -z 10000" output="both">
     <env name="GZ_SIM_RESOURCE_PATH" value="$(env GZ_SIM_RESOURCE_PATH):$(env HOME)/.gazebo/models:$(var gz_model_path)" />
     <env name="GZ_SIM_SYSTEM_PLUGIN_PATH" value="$(find-pkg-prefix rmf_robot_sim_gz_plugins)/lib/rmf_robot_sim_gz_plugins"/>
   </executable>

@@ -35,6 +35,8 @@ rmf_fleet:
   robots:
     deliveryRobot1:
       charger: "deliveryRobotCharger1"
+    deliveryRobot2:
+      charger: "deliveryRobotCharger2"
 
 fleet_manager:
   ip: "127.0.0.1"

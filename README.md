@@ -11,7 +11,7 @@ cd jetty_demo/jetty_demo/worlds
 gz sim -v 4 jetty.sdf
 ```
 
-Or launch it from `[rocker](https://github.com/osrf/rocker?tab=readme-ov-file#installation)`,
+Or launch it from [rocker](https://github.com/osrf/rocker?tab=readme-ov-file#installation),
 
 ```bash
 rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.launch.xml

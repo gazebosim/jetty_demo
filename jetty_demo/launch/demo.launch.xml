@@ -9,6 +9,7 @@
   <arg name="nav_graph_file" default="$(var building_map_prefix_path)/nav_graphs/0.yaml" description="Absolute path to the navigation graph for the first fleet."/>
   <arg name="gz_world_file" default="$(var building_map_prefix_path)/$(var building_map_name).sdf" description="Absolute path to the Gz world file."/>
   <arg name="gz_model_path" default="$(var building_map_prefix_path)/models:$(find-pkg-share jetty_demo)/models" description="Absolute path to additional SDF models."/>
+  <arg name="viz_config_file" default="$(find-pkg-share jetty_demo)/configs/jetty_demo.rviz"/>
 
   <arg name="initial_map" default="L1" description="Initial map name for the visualizer"/>
   <arg name="server_uri" default="" description="The URI of the api server to transmit state and task information."/>
@@ -41,6 +42,7 @@
     <include file="$(find-pkg-share rmf_visualization)/visualization.launch.xml">
       <arg name="use_sim_time" value="$(var use_simulator)"/>
       <arg name="map_name" value="$(var initial_map)"/>
+      <arg name="viz_config_file" value ="$(var viz_config_file)"/>
       <arg name="headless" value="false"/>
     </include>
   </group>

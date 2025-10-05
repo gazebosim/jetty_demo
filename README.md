@@ -15,8 +15,6 @@ Or launch it from [rocker](https://github.com/osrf/rocker?tab=readme-ov-file#ins
 
 ```bash
 rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.launch.xml
-
-# Don't forget to start the sim!
 ```
 
 ### Launching the Open-RMF demo
@@ -25,9 +23,9 @@ rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.l
 
 ```bash
 rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo demo.launch.xml
-
-# Don't forget to start the sim!
 ```
+
+Don't forget to hit the Play button to run the sim before starting the tasks below.
 
 In a separate terminal `exec` into the same `rocker` container, to run some tasks,
 

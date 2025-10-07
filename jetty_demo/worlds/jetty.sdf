@@ -284,7 +284,7 @@
             <!-- Increase alpha from 0.0 to 0.3 to show slip map visualization -->
             <diffuse>1 1 1 0.0</diffuse>
             <pbr><metal>
-              <albedo_map>vehicle_with_wheel_slip/warehouse_slip_map.png</albedo_map>
+              <albedo_map>model://vehicle_with_wheel_slip/warehouse_slip_map.png</albedo_map>
             </metal></pbr>
           </material>
         </visual>

@@ -3,12 +3,13 @@ Jetty demo world and resources
 
 ![](media/jetty_demo_world.png)
 
-Usage:
+Quick Start:
 
 ```bash
 git clone https://github.com/gazebosim/jetty_demo
-cd jetty_demo/jetty_demo/worlds
-gz sim -v 4 jetty.sdf
+cd jetty_demo
+export GZ_SIM_RESOURCE_PATH=`pwd`/jetty_demo/models:$GZ_SIM_RESOURCE_PATH
+gz sim -v 4 jetty_demo/worlds/jetty.sdf
 ```
 
 Or launch it from [rocker](https://github.com/osrf/rocker?tab=readme-ov-file#installation),

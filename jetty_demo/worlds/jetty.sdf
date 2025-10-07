@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sdf version="1.12">
   <world name="default">
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
     <physics name="fast" type="ignored">
       <max_step_size>0.004</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -1958,7 +1975,7 @@
       <uri>Pallet_Standard</uri>
       <pose>-7.0000 -7.7842 0.0000 0.0000 0.0000 0.0000</pose>
     </include>
-    
+
     <include>
       <static>true</static>
       <name>Pallet_Rack</name>

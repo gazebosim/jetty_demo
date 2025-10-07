@@ -1,0 +1,125 @@
+coordinate_system: reference_image
+crowd_sim:
+  agent_groups:
+    - {agents_name: [deliveryRobot1, deliveryRobot2], agents_number: 2, group_id: 0, profile_selector: external_agent, state_selector: external_static, x: 0, y: 0}
+  agent_profiles:
+    - {ORCA_tau: 1, ORCA_tauObst: 0.40000000000000002, class: 1, max_accel: 0, max_angle_vel: 0, max_neighbors: 10, max_speed: 0, name: external_agent, neighbor_dist: 5, obstacle_set: 1, pref_speed: 0, r: 0.25}
+  enable: 0
+  goal_sets: []
+  model_types: []
+  obstacle_set: {class: 1, file_name: L1_navmesh.nav, type: nav_mesh}
+  states:
+    - {final: 1, goal_set: -1, name: external_static, navmesh_file_name: ""}
+  transitions: []
+  update_time_step: 0.10000000000000001
+graphs:
+  {}
+levels:
+  L1:
+    drawing:
+      filename: high_res.png
+    elevation: 0
+    lanes:
+      - [8, 9, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [10, 11, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [12, 13, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [13, 11, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [16, 9, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [2, 17, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [17, 16, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [17, 18, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [20, 21, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [21, 22, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [21, 15, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [9, 18, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [10, 19, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [12, 20, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [22, 12, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [18, 23, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [23, 19, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [10, 24, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [24, 9, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [21, 25, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [27, 28, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [30, 22, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [25, 31, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [31, 26, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [26, 32, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [32, 27, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [28, 33, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [33, 29, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [29, 34, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [34, 30, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [30, 35, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [29, 36, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [28, 37, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [26, 29, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [25, 30, {bidirectional: [4, true], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [19, 38, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [38, 20, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [12, 39, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+      - [39, 10, {bidirectional: [4, false], demo_mock_floor_name: [1, ""], demo_mock_lift_name: [1, ""], graph_idx: [2, 0], mutex: [1, ""], orientation: [1, ""], speed_limit: [3, 0]}]
+    layers:
+      correct_location:
+        color: [1, 0, 0, 0.5]
+        filename: high_res.png
+        transform:
+          scale: 0.25
+          translation_x: 64
+          translation_y: 61
+          yaw: 3.1415926535897931
+        visible: true
+      test_background:
+        color: [0, 1, 0, 1]
+        filename: ""
+        transform:
+          scale: 1
+          translation_x: 0
+          translation_y: 0
+          yaw: 0
+        visible: false
+    measurements:
+      - [0, 1, {distance: [3, 125]}]
+    vertices:
+      - [0.044999999999999998, 0.0080000000000000002, 0, ""]
+      - [500.00400000000002, -0.0040000000000000001, 0, ""]
+      - [-15.555999999999999, -30.529, 0, deliveryRobotCharger1, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot1], spawn_robot_type: [1, DeliveryRobot]}]
+      - [48.819000000000003, 27.151, 0, ""]
+      - [256.16800000000001, 239.64099999999999, 0, ""]
+      - [503.22399999999999, 489.77300000000002, 0, ""]
+      - [1.5089999999999999, 5.423, 0, ""]
+      - [-53.267000000000003, 47.127000000000002, 0, ""]
+      - [-11.686, -52.670000000000002, 0, workcell_1, {dropoff_ingestor: [1, workcell_1], is_holding_point: [4, false], is_parking_spot: [4, false], mutex: [1, workcell_1], pickup_dispenser: [1, workcell_1]}]
+      - [-11.686, -45.652000000000001, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_1]}]
+      - [8.266, -45.652000000000001, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_2]}]
+      - [8.266, -52.878999999999998, 0, workcell_2, {dropoff_ingestor: [1, workcell_2], is_holding_point: [4, false], is_parking_spot: [4, false], mutex: [1, workcell_2], pickup_dispenser: [1, workcell_2]}]
+      - [15.939, -45.499000000000002, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_3]}]
+      - [15.91, -52.908999999999999, 0, workcell_3, {is_parking_spot: [4, false], mutex: [1, workcell_3]}]
+      - [32.017000000000003, -113.23999999999999, 0, ""]
+      - [26.681999999999999, -29.957000000000001, 0, deliveryRobotCharger2, {is_charger: [4, true], is_parking_spot: [4, true], spawn_robot_name: [1, deliveryRobot2], spawn_robot_type: [1, DeliveryRobot]}]
+      - [-15.555999999999999, -45.512999999999998, 0, ""]
+      - [-15.555999999999999, -39.637999999999998, 0, ""]
+      - [-11.73, -39.637999999999998, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_1]}]
+      - [8.0999999999999996, -39.637999999999998, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_2]}]
+      - [15.880000000000001, -39.636000000000003, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_3]}]
+      - [26.626000000000001, -39.637999999999998, 0, ""]
+      - [26.626000000000001, -45.637, 0, ""]
+      - [-2.3889999999999998, -39.637999999999998, 0, "", {is_holding_point: [4, true]}]
+      - [-2.2189999999999999, -45.652000000000001, 0, "", {is_holding_point: [4, true]}]
+      - [35.259999999999998, -39.652999999999999, 0, "", {mutex: [1, workcell_4]}]
+      - [55.011000000000003, -39.637999999999998, 0, ""]
+      - [74.674000000000007, -39.637999999999998, 0, ""]
+      - [74.674000000000007, -45.316000000000003, 0, ""]
+      - [54.911999999999999, -45.316000000000003, 0, ""]
+      - [35.353999999999999, -45.506999999999998, 0, "", {is_passthrough_point: [4, true], mutex: [1, workcell_4]}]
+      - [44.686999999999998, -39.637999999999998, 0, ""]
+      - [64.546999999999997, -39.637999999999998, 0, ""]
+      - [64.498000000000005, -45.316000000000003, 0, ""]
+      - [44.786000000000001, -45.316000000000003, 0, ""]
+      - [35.401000000000003, -52.258000000000003, 0, workcell_4, {is_parking_spot: [4, false], mutex: [1, workcell_4]}]
+      - [54.911999999999999, -52.182000000000002, 0, ""]
+      - [74.674000000000007, -52.271000000000001, 0, ""]
+      - [11.664, -39.637999999999998, 0, "", {is_holding_point: [4, true]}]
+      - [12.093, -45.499000000000002, 0, "", {is_holding_point: [4, true]}]
+lifts: {}
+name: jetty_demo

@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<sdf version="1.12">
+    <model name="wall_mount_bracket">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <pose>0.0 0.0 0 0 0.0 0</pose>
+          <geometry>
+            <box>
+              <size>0.02 1.727 0.02 0 0 0</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="base_visual">
+          <pose>0.0 0.0 0 0 0.0 0</pose>
+          <geometry>
+            <box>
+              <size>0.02 1.727 0.02 0 0 0</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name="pin1_visual">
+          <pose>-0.06 0.0 0 0 1.57079 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.12</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.0 1.0 0.0</diffuse>
+            <pbr>
+              <metal>
+                <metalness>0.5</metalness>
+                <roughness>0.1</roughness>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+        <visual name="pin2_visual">
+          <pose>-0.06 -0.8635 0 0 1.57079 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.12</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.0 0.0 1.0</diffuse>
+            <pbr>
+              <metal>
+                <metalness>0.5</metalness>
+                <roughness>0.1</roughness>
+              </metal>
+            </pbr>
+          </material>
+
+        </visual>
+        <visual name="pin3_visual">
+          <pose>-0.06 0.8635 0 0 1.57079 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.01</radius>
+              <length>0.12</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>1.0 0.0 0.0</diffuse>
+            <pbr>
+              <metal>
+                <metalness>0.5</metalness>
+                <roughness>0.1</roughness>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+</sdf>

@@ -7,3 +7,7 @@ repositories:
     type: git
     url: https://github.com/open-rmf/rmf_simulation.git
     version: 39e33a
+  rmf/rmf_traffic_editor:
+    type: git
+    url: https://github.com/open-rmf/rmf_traffic_editor.git
+    version: 84d7e4

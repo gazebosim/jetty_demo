@@ -1,11 +1,8 @@
 <launch>
-    <!-- <gz_server world_sdf_file="$(find-pkg-share sim_ifaces_demo_assets)/worlds/sim_ifaces_demo.sdf"/> -->
-    <gz_server world_sdf_file="$(find-pkg-share sim_ifaces_demo_assets)/worlds/jetty.sdf"/>
+    <!-- <gz_server world_sdf_file="$(find-pkg-share jetty_demo)/worlds/sim_ifaces_demo.sdf"/> -->
+    <gz_server world_sdf_file="$(find-pkg-share jetty_demo)/worlds/jetty.sdf"/>
 
     <!-- Start Gazebo GUI Client using an executable tag -->
     <executable cmd="gz sim -g --gui-config=$(find-pkg-share sim_ifaces_demo)/config/gui.config" output="screen"/>
-
-    <!-- Start the conveyor controller node -->
-    <!-- <node pkg="sim_ifaces_demo" exec="conveyor_controller" name="conveyor_controller" output="screen"/> -->
 </launch>
 

@@ -24,7 +24,10 @@ from rclpy.node import Node
 from geometry_msgs.msg import Point, Pose, PoseStamped, Quaternion, Twist, Vector3
 from simulation_interfaces.msg import EntityState, Resource, Result
 from simulation_interfaces.srv import (
-    GetEntityState, ResetSimulation, SetEntityState, SpawnEntity
+    GetEntityState,
+    ResetSimulation,
+    SetEntityState,
+    SpawnEntity,
 )
 
 # --- Bounding Box Calculation Results ---
@@ -68,53 +71,61 @@ class ConveyorController(Node):
     """
 
     def __init__(self):
-        super().__init__('conveyor_controller')
+        super().__init__("conveyor_controller")
 
         self.declare_parameters(
-            namespace='',
+            namespace="",
             parameters=[
-                ('inspection_time', 5.0),
-                ('tray_speed', 0.5),
-                ('inspection_x_position', 0.0),
-                ('tray_name', 'tray'),
-                ('num_objects_to_spawn', 4),
-                ('tray_width', 0.4),
-                ('tray_depth', 0.5),
-            ]
+                ("inspection_time", 5.0),
+                ("tray_speed", 0.5),
+                ("inspection_x_position", 0.1),
+                ("tray_name", "tray"),
+                ("num_objects_to_spawn", 4),
+                ("tray_width", 0.4),
+                ("tray_depth", 0.5),
+            ],
         )
 
         # Create clients for the required simulation services
-        self._spawn_client = self.create_client(SpawnEntity, '/gzserver/spawn_entity')
-        self._set_state_client = self.create_client(SetEntityState, '/gzserver/set_entity_state')
-        self._get_state_client = self.create_client(GetEntityState, '/gzserver/get_entity_state')
-        self._reset_sim_client = self.create_client(ResetSimulation, '/gzserver/reset_simulation')
+        self._spawn_client = self.create_client(SpawnEntity, "/gzserver/spawn_entity")
+        self._set_state_client = self.create_client(
+            SetEntityState, "/gzserver/set_entity_state"
+        )
+        self._get_state_client = self.create_client(
+            GetEntityState, "/gzserver/get_entity_state"
+        )
+        self._reset_sim_client = self.create_client(
+            ResetSimulation, "/gzserver/reset_simulation"
+        )
         self.spawned_object_names = []
 
         self.wait_for_services()
 
     def wait_for_services(self):
         """Blocks until all required simulation services are available."""
-        self.get_logger().info('Waiting for simulation services...')
+        self.get_logger().info("Waiting for simulation services...")
         services = {
-            'spawn': self._spawn_client,
-            'set_state': self._set_state_client,
-            'get_state': self._get_state_client,
-            'reset': self._reset_sim_client
+            "spawn": self._spawn_client,
+            "set_state": self._set_state_client,
+            "get_state": self._get_state_client,
+            "reset": self._reset_sim_client,
         }
         for name, client in services.items():
             while not client.wait_for_service(timeout_sec=1.0):
-                self.get_logger().warning(f'Service "{name}" not available, waiting again...')
-        self.get_logger().info('All simulation services are available.')
+                self.get_logger().warning(
+                    f'Service "{name}" not available, waiting again...'
+                )
+        self.get_logger().info("All simulation services are available.")
 
     def run_full_cycle(self):
         """
         Runs one complete simulation cycle synchronously.
         """
-        self.get_logger().info('--- Starting new conveyor cycle ---')
+        self.get_logger().info("--- Starting new conveyor cycle ---")
         try:
             # 1. Reset the simulation to a clean state
             self.reset_simulation()
-            time.sleep(1.0) # Give the simulator time to settle
+            time.sleep(1.0)  # Give the simulator time to settle
 
             # 2. Spawn a random selection of objects
             self.spawn_objects()
@@ -128,14 +139,18 @@ class ConveyorController(Node):
 
             # 5. Stop the tray for inspection
             self.set_tray_velocity(is_moving=False)
-            inspection_time = self.get_parameter('inspection_time').get_parameter_value().double_value
-            self.get_logger().info(f"Waiting for {inspection_time} seconds for inspection...")
+            inspection_time = (
+                self.get_parameter("inspection_time").get_parameter_value().double_value
+            )
+            self.get_logger().info(
+                f"Waiting for {inspection_time} seconds for inspection..."
+            )
             time.sleep(inspection_time)
 
         except (RuntimeError, KeyboardInterrupt) as e:
             self.get_logger().error(f"An error occurred during the cycle: {e}")
             self.get_logger().info("Shutting down node.")
-            raise e # Re-raise to stop the main loop
+            raise e  # Re-raise to stop the main loop
         except Exception as e:
             self.get_logger().error(f"An unexpected error occurred: {e}")
             self.get_logger().info("Attempting a new cycle after a delay...")
@@ -145,11 +160,11 @@ class ConveyorController(Node):
         """Calls the reset_simulation service."""
         request = ResetSimulation.Request()
         request.scope = ResetSimulation.Request.SCOPE_ALL
-        self.get_logger().info('Resetting simulation...')
-        
+        self.get_logger().info("Resetting simulation...")
+
         future = self._reset_sim_client.call_async(request)
         rclpy.spin_until_future_complete(self, future)
-        
+
         response_raw = future.result()
         if response_raw is None:
             error_msg = "Failed to get response from reset_simulation service."
@@ -161,9 +176,9 @@ class ConveyorController(Node):
             error_msg = f"Failed to reset simulation: {response.result.error_message}"
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
-        
+
         self.spawned_object_names.clear()
-        self.get_logger().info('Simulation reset successfully.')
+        self.get_logger().info("Simulation reset successfully.")
 
     def _is_overlapping(self, pos1, size1, pos2, size2):
         """Checks if two axis-aligned bounding boxes overlap in 2D (x, y)."""
@@ -171,29 +186,39 @@ class ConveyorController(Node):
         w1, d1 = size1
         x2, y2 = pos2
         w2, d2 = size2
-        if abs(x1 - x2) * 2 >= (w1 + w2): return False
-        if abs(y1 - y2) * 2 >= (d1 + d2): return False
+        if abs(x1 - x2) * 2 >= (w1 + w2):
+            return False
+        if abs(y1 - y2) * 2 >= (d1 + d2):
+            return False
         return True
 
     def get_tray_pose(self) -> Pose:
         """Gets the current pose of the tray in the world frame."""
-        tray_name = self.get_parameter('tray_name').value
+        return self.get_tray_state().pose
+
+    def get_tray_state(self) -> EntityState:
+        """Gets the current state of the tray in the world frame."""
+        tray_name = self.get_parameter("tray_name").value
         request = GetEntityState.Request(entity=tray_name)
-        
+
         future = self._get_state_client.call_async(request)
         rclpy.spin_until_future_complete(self, future)
 
         response_raw = future.result()
         if response_raw is None:
-            error_msg = f"Failed to get response from get_entity_state for '{tray_name}'."
+            error_msg = (
+                f"Failed to get response from get_entity_state for '{tray_name}'."
+            )
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
         response: GetEntityState.Response = response_raw
 
         if response.result.result == Result.RESULT_OK:
-            return response.state.pose
+            return response.state
         else:
-            error_msg = f"Could not get pose for '{tray_name}': {response.result.error_message}"
+            error_msg = (
+                f"Could not get pose for '{tray_name}': {response.result.error_message}"
+            )
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
 
@@ -201,14 +226,14 @@ class ConveyorController(Node):
         """
         Spawns objects onto the tray, ensuring they are within bounds and do not overlap.
         """
-        num_objects = self.get_parameter('num_objects_to_spawn').value
-        tray_width = self.get_parameter('tray_width').value
-        tray_depth = self.get_parameter('tray_depth').value
+        num_objects = self.get_parameter("num_objects_to_spawn").value
+        tray_width = self.get_parameter("tray_width").value
+        tray_depth = self.get_parameter("tray_depth").value
         self.get_logger().info(f"Attempting to spawn {num_objects} objects...")
 
         # Get the tray's pose in the world frame to calculate absolute spawn coordinates
         tray_pose = self.get_tray_pose()
-        
+
         placed_objects = []
         MAX_PLACEMENT_ATTEMPTS = 20
 
@@ -217,24 +242,28 @@ class ConveyorController(Node):
             for _ in range(MAX_PLACEMENT_ATTEMPTS):
                 object_to_spawn = random.choice(OBJECTS_TO_SPAWN)
                 obj_size_x, obj_size_y, _ = object_to_spawn["size"]
-                
-                half_x = obj_size_x / 2.0; half_y = obj_size_y / 2.0
+
+                half_x = obj_size_x / 2.0
+                half_y = obj_size_y / 2.0
                 spawn_range_x = (tray_width / 2.0) - half_x
                 spawn_range_y = (tray_depth / 2.0) - half_y
-                
+
                 # Relative position on the tray
                 relative_pos_x = random.uniform(-spawn_range_x, spawn_range_x)
                 relative_pos_y = random.uniform(-spawn_range_y, spawn_range_y)
-                
+
                 current_pos = (relative_pos_x, relative_pos_y)
                 current_size = (obj_size_x, obj_size_y)
-                has_collision = any(self._is_overlapping(current_pos, current_size, p['pos'], p['size']) for p in placed_objects)
-                
+                has_collision = any(
+                    self._is_overlapping(current_pos, current_size, p["pos"], p["size"])
+                    for p in placed_objects
+                )
+
                 if not has_collision:
                     object_name = f"spawned_object_{i}"
                     yaw = random.uniform(0, 2 * math.pi)
                     quat = self.yaw_to_quaternion(yaw)
-                    
+
                     # Calculate absolute world coordinates
                     world_x = tray_pose.position.x + relative_pos_x
                     world_y = tray_pose.position.y + relative_pos_y
@@ -245,72 +274,102 @@ class ConveyorController(Node):
                     request.name = object_name
                     request.allow_renaming = True
                     request.entity_resource = Resource(uri=object_to_spawn["uri"])
-                    
+
                     # Set the initial pose in the world frame
                     pose_stamped = PoseStamped()
-                    pose_stamped.header.frame_id = "" # Empty means world frame
-                    pose_stamped.pose = Pose(position=Point(x=world_x, y=world_y, z=world_z), orientation=quat)
+                    pose_stamped.header.frame_id = ""  # Empty means world frame
+                    pose_stamped.pose = Pose(
+                        position=Point(x=world_x, y=world_y, z=world_z),
+                        orientation=quat,
+                    )
                     request.initial_pose = pose_stamped
 
-                    self.get_logger().info(f"Spawning '{object_name}' in world at ({world_x:.2f}, {world_y:.2f})")
+                    self.get_logger().info(
+                        f"Spawning '{object_name}' in world at ({world_x:.2f}, {world_y:.2f})"
+                    )
                     future = self._spawn_client.call_async(request)
                     rclpy.spin_until_future_complete(self, future)
-                    
+
                     response_raw = future.result()
                     if response_raw is None:
-                        self.get_logger().error(f"Failed to get response from spawn_entity service for '{object_name}'.")
+                        self.get_logger().error(
+                            f"Failed to get response from spawn_entity service for '{object_name}'."
+                        )
                         continue
                     response: SpawnEntity.Response = response_raw
 
                     if response.result.result == Result.RESULT_OK:
-                        self.get_logger().info(f"Successfully spawned entity with name: {response.entity_name}")
-                        placed_objects.append({'pos': current_pos, 'size': current_size})
+                        self.get_logger().info(
+                            f"Successfully spawned entity with name: {response.entity_name}"
+                        )
+                        placed_objects.append(
+                            {"pos": current_pos, "size": current_size}
+                        )
                         self.spawned_object_names.append(response.entity_name)
                         is_placed = True
                         break
                     else:
-                        self.get_logger().error(f"Failed to spawn '{object_name}': {response.result.error_message}")
-            
+                        self.get_logger().error(
+                            f"Failed to spawn '{object_name}': {response.result.error_message}"
+                        )
+
             if not is_placed:
-                self.get_logger().warning(f"Could not place object {i+1}, skipping.")
+                self.get_logger().warning(f"Could not place object {i + 1}, skipping.")
 
     def set_tray_velocity(self, is_moving: bool):
         """Sets the linear velocity of the tray."""
-        tray_name = self.get_parameter('tray_name').value
-        speed = self.get_parameter('tray_speed').value
+        tray_name = self.get_parameter("tray_name").value
+        speed = self.get_parameter("tray_speed").value
         request = SetEntityState.Request()
         request.entity = tray_name
-        
+
         linear_velocity = Vector3()
         if is_moving:
             self.get_logger().info(f"Moving '{tray_name}' with speed {speed} m/s.")
             linear_velocity.x = speed
         else:
             self.get_logger().info(f"Stopping '{tray_name}'.")
-            linear_velocity.x = -0.2
-        
-        request.state = EntityState(pose=self.get_tray_pose(), twist=Twist(linear=linear_velocity))
+            linear_velocity.x = 0.0
 
-        future = self._set_state_client.call_async(request)
-        rclpy.spin_until_future_complete(self, future)
+        # Because the tray is a dynamic object travelling on a frictionless surface,
+        # it will not achieve the desired velocity with a single command.
+        # The behavior also seems to be dependent on the RTF of the simulation.
+        # To achieve a consistent behavior, we implement a trivial closed loop control on the velocity.
+        MAX_VELOCITY_SET_ATTEMPTS = 100
+        for i in range(MAX_VELOCITY_SET_ATTEMPTS):
+            tray_pose = self.get_tray_pose()
+            request.state = EntityState(
+                pose=self.get_tray_pose(), twist=Twist(linear=linear_velocity)
+            )
+            future = self._set_state_client.call_async(request)
+            rclpy.spin_until_future_complete(self, future)
 
-        response_raw = future.result()
-        if response_raw is None:
-            error_msg = "Failed to get response from set_entity_state service."
-            self.get_logger().error(error_msg)
-            raise RuntimeError(error_msg)
-        response: SetEntityState.Response = response_raw
+            response_raw = future.result()
+            if response_raw is None:
+                error_msg = "Failed to get response from set_entity_state service."
+                self.get_logger().error(error_msg)
+                raise RuntimeError(error_msg)
+            response: SetEntityState.Response = response_raw
 
-        if response.result.result != Result.RESULT_OK:
-            error_msg = f"Failed to set tray velocity: {response.result.error_message}"
-            self.get_logger().error(error_msg)
-            raise RuntimeError(error_msg)
+            if response.result.result != Result.RESULT_OK:
+                error_msg = (
+                    f"Failed to set tray velocity: {response.result.error_message}"
+                )
+                self.get_logger().error(error_msg)
+                raise RuntimeError(error_msg)
+
+            time.sleep(0.1)
+            tray_state = self.get_tray_state()
+            if abs(tray_state.twist.linear.x - linear_velocity.x) <= 0.01:
+                break
 
     def monitor_tray_position(self):
         """Synchronously polls the tray's position until it reaches the target."""
-        tray_name = self.get_parameter('tray_name').value
-        inspection_x = self.get_parameter('inspection_x_position').value
-        self.get_logger().info(f"Monitoring '{tray_name}' until it reaches x={inspection_x}...")
+        tray_name = self.get_parameter("tray_name").value
+        inspection_x = self.get_parameter("inspection_x_position").value
+        self.get_logger().info(
+            f"Monitoring '{tray_name}' until it reaches x={inspection_x}..."
+        )
 
         while rclpy.ok():
             request = GetEntityState.Request(entity=tray_name)
@@ -319,26 +378,32 @@ class ConveyorController(Node):
 
             response_raw = future.result()
             if response_raw is None:
-                self.get_logger().warning(f"Failed to get response from get_entity_state for '{tray_name}'.")
+                self.get_logger().warning(
+                    f"Failed to get response from get_entity_state for '{tray_name}'."
+                )
                 break
             response: GetEntityState.Response = response_raw
 
             if response and response.result.result == Result.RESULT_OK:
                 current_x = response.state.pose.position.x
-                print("Current pos: ", current_x)
                 if current_x >= inspection_x:
-                    self.get_logger().info(f"Tray has reached inspection point at x={current_x:.2f}.")
+                    self.get_logger().info(
+                        f"Tray has reached inspection point at x={current_x:.2f}."
+                    )
                     break
             elif response:
-                self.get_logger().warning(f"Failed to get state for '{tray_name}': {response.result.error_message}")
+                self.get_logger().warning(
+                    f"Failed to get state for '{tray_name}': {response.result.error_message}"
+                )
                 break
-            
+
             time.sleep(0.05)
 
     @staticmethod
     def yaw_to_quaternion(yaw: float) -> Quaternion:
         """Converts a yaw angle (in radians) to a quaternion."""
         return Quaternion(x=0.0, y=0.0, z=math.sin(yaw / 2.0), w=math.cos(yaw / 2.0))
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -355,6 +420,6 @@ def main(args=None):
         if rclpy.ok():
             rclpy.shutdown()
 
-if __name__ == '__main__':
-    main()
 
+if __name__ == "__main__":
+    main()

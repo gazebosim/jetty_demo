@@ -1,10 +1,16 @@
 <?xml version="1.0" ?>
+<!--
+Model for the ROS Simulation Interfaces Demo
+
+This model can be merge-included into the jetty demo world (jetty.sdf) or the small sim_ifaces_demo.sdf file
+
+Partially generated using Gemini 2.5 Pro
+-->
 <sdf version="1.12">
   <model name="sim_ifaces_demo">
     <model name="lights">
       <static>true</static>
       <link name="base">
-        <!-- Lighting: A soft spotlight pointing down -->
         <light type="spot" name="soft_spotlight">
           <pose>0 0.5 5 0 0 0</pose>
           <diffuse>1 1 1 1</diffuse>

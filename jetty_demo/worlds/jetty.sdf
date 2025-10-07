@@ -134,6 +134,20 @@
       <visualize>false</visualize>
     </light>
 
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
     <!-- Mass based auto-inertia demo -->
     <!-- Three drills are pinned on the wall:
            1. Red pin: drill with no <inertial> tag, i.e. uses default
@@ -224,6 +238,58 @@
       <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/cordless drill</uri>
       <pose>30.3 -3.3757 1.1 -0.3 0.0000 1.57079</pose>
     </include>
+
+    <!-- Lookup wheel slip system demo -->
+    <!-- A vehicle is placed in front of a gravel ramp. It is attached with a
+         LookupWheelSlip system that dynamically adjusts the longitudinal slip
+         compliance parameters of the wheels based on the location of the
+         vehicle. The system uses a look-up slip map that maps to the entire
+         warehouse floor. To see the slip region,
+           1. Set the alpha component of the <diffuse> tag in the
+              warehouse_slip_map_visualization model below to 0.3
+           2. Launch jetty.sdf demo world
+           2. Make ramp semi-transparent (right click -> View -> Transparent)
+              to reveal the green slip region.
+
+         Publish the following command to move the vehicle up the ramp
+
+         gz topic -t "/model/vehicle_with_wheel_slip/cmd_vel" -m gz.msgs.Twist -p "linear: {x: 1.0}"
+
+         The vehicle should slip as it moves into the slip region.
+    -->
+    <include>
+      <pose>24.8 -20 0.1323 0 0 -1.57079</pose>
+      <name>vehicle_with_wheel_slip</name>
+      <uri>vehicle_with_wheel_slip</uri>
+    </include>
+
+    <include>
+      <static>true</static>
+      <pose>25.5 -26.47 -3.37 -0.12 0 0</pose>
+      <name>gravel_platform</name>
+      <uri>gravel_platform</uri>
+    </include>
+
+     <model name="warehouse_slip_map_visualization">
+      <static>true</static>
+      <link name="link">
+        <pose>0 0 0 0.0 0 1.57079</pose>
+        <visual name="visual">
+          <geometry>
+            <box>
+               <size>61 61 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <!-- Increase alpha from 0.0 to 0.3 to show slip map visualization -->
+            <diffuse>1 1 1 0.0</diffuse>
+            <pbr><metal>
+              <albedo_map>model://vehicle_with_wheel_slip/warehouse_slip_map.png</albedo_map>
+            </metal></pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
 
     <!-- Warehouse assets -->
     <include>
@@ -1665,14 +1731,14 @@
       <static>true</static>
       <name>Hand_Cart.001</name>
       <uri>Hand_Cart</uri>
-      <pose>23.6445 -29.0120 0.0000 0.0000 0.0000 -1.5957</pose>
+      <pose>16.2 -29.0120 0.0000 0.0000 0.0000 -1.5957</pose>
     </include>
 
     <include>
       <static>true</static>
       <name>Hand_Cart.002</name>
       <uri>Hand_Cart</uri>
-      <pose>19.8893 -28.7736 0.0000 0.0000 0.0000 -1.7779</pose>
+      <pose>9.8893 -28.1736 0.0000 0.0000 0.0000 -1.7779</pose>
     </include>
 
     <include>

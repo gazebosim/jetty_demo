@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<sdf version="1.12">
+  <model name="gravel_platform">
+    <link name="link">
+      <pose>0 0 0 0.0 0 0</pose>
+      <collision name="collision">
+        <geometry>
+          <box>
+             <size>10 10 8</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <box>
+             <size>10 10 8</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>1 1 1</diffuse>
+          <pbr><metal>
+          <albedo_map>materials/textures/gravel_diffuse.png</albedo_map>
+          <normal_map>materials/textures/gravel_normal.png</normal_map>
+          </metal></pbr>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

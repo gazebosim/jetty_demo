@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2025
+# Copyright 2025 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,32 +17,34 @@
 
 import json
 import os
+import sys
 import tempfile
 from urllib.parse import urlparse
-import sys
+
+from gz.math import AxisAlignedBox
 
 # Gazebo API imports
-from gz.sim import TestFixture, Link, Model, K_NULL_ENTITY, World, world_entity
-from gz.math import AxisAlignedBox
+from gz.sim import K_NULL_ENTITY, Link, Model, TestFixture, World, world_entity
 
 
 def get_model_name_from_uri(uri: str) -> str:
-    """Extracts a model name from a Gazebo Fuel URI."""
+    """Extract a model name from a Gazebo Fuel URI."""
     try:
         path = urlparse(uri).path
         model_name = os.path.basename(path)
         if not model_name:
-            raise ValueError("Could not parse model name from URI")
+            raise ValueError('Could not parse model name from URI')
         return model_name
     except Exception as e:
-        print(f"Error: Invalid model URI provided: {uri}. {e}", file=sys.stderr)
-        return ""
+        print(f'Error: Invalid model URI provided: {uri}. {e}', file=sys.stderr)
+        return ''
 
 
 def generate_world_sdf(model_uris: list) -> str:
     """
-    Generates a single world SDF string that includes all specified models,
-    spaced out to prevent initial collisions.
+    Generate a single world SDF string that includes all specified models.
+
+    The models are spaced out to prevent initial collisions.
     """
     include_tags = []
     # Space models 1 meters apart along the x-axis.
@@ -50,7 +52,7 @@ def generate_world_sdf(model_uris: list) -> str:
     for i, uri in enumerate(model_uris):
         model_name = get_model_name_from_uri(uri)
         if model_name:
-            pose = f"{i * spacing} 0 0 0 0 0"
+            pose = f'{i * spacing} 0 0 0 0 0'
             include_tags.append(f"""
             <include>
               <name>{model_name}</name>
@@ -62,23 +64,21 @@ def generate_world_sdf(model_uris: list) -> str:
 <?xml version="1.0" ?>
 <sdf version='1.7'>
     <world name='bounding_box_world'>
-    {"".join(include_tags)}
+    {''.join(include_tags)}
     </world>
 </sdf>
     """
 
 
 def main():
-    """
-    Main function to calculate and print bounding boxes for a list of models.
-    """
+    """Calculate and print bounding boxes for a list of models."""
     model_uris = [
-        "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2",
-        "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1",
+        'https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2',
+        'https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1',
     ]
 
     model_names = [get_model_name_from_uri(uri) for uri in model_uris if uri]
-    model_name_to_uri = dict(zip(model_names, model_uris))
+    model_name_to_uri = dict(zip(model_names, model_uris, strict=False))
 
     world_sdf_string = generate_world_sdf(model_uris)
     print(world_sdf_string)
@@ -86,7 +86,7 @@ def main():
     world_file = None
     try:
         with tempfile.NamedTemporaryFile(
-            mode="w", delete=False, suffix=".sdf", encoding="utf-8"
+            mode='w', delete=False, suffix='.sdf', encoding='utf-8'
         ) as f:
             f.write(world_sdf_string)
             world_file = f.name
@@ -100,6 +100,7 @@ def main():
         def on_pre_update(info, ecm):
             """
             Enable bounding box checks for all links on all models.
+
             This only needs to run once after the models are spawned.
             """
             nonlocal setup_complete
@@ -129,9 +130,7 @@ def main():
             setup_complete = True
 
         def on_post_update(info, ecm):
-            """
-            After physics has run, read the final world-axis-aligned bounding box.
-            """
+            """After physics has run, read the final world-axis-aligned bounding box."""
             nonlocal iteration_count
 
             if not setup_complete:
@@ -184,10 +183,10 @@ def main():
         json_output = []
 
         # Print results
-        print("--- Bounding Box Calculation Results ---")
+        print('--- Bounding Box Calculation Results ---')
         for name in model_names:
-            data = {"uri": model_name_to_uri[name]}
-            print(f"\nModel: {name}")
+            data = {'uri': model_name_to_uri[name]}
+            print(f'\nModel: {name}')
             if name in results:
                 bbox = results[name]
                 # print(f"  -> Bounding Box Min: {bbox.min()}")
@@ -195,10 +194,10 @@ def main():
                 # print(f"  -> Bounding Box Center: {bbox.center()}")
                 # print(f"  -> Bounding Box Size: {bbox.size()}")
                 size = bbox.size()
-                data["size"] = [size.x(), size.y(), size.z()]
+                data['size'] = [size.x(), size.y(), size.z()]
                 json_output.append(data)
             else:
-                print("  -> Failed to determine bounding box.")
+                print('  -> Failed to determine bounding box.')
         print(json.dumps(json_output))
 
     finally:
@@ -206,6 +205,6 @@ def main():
             os.remove(world_file)
 
 
-if __name__ == "__main__":
-    os.environ["GZ_LOG_LEVEL"] = "3"
+if __name__ == '__main__':
+    os.environ['GZ_LOG_LEVEL'] = '3'
     main()

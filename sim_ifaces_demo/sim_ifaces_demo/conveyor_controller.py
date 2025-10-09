@@ -1,4 +1,4 @@
-# Copyright 2025
+# Copyright 2025 Open Source Robotics Foundation, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,10 +18,9 @@ import math
 import random
 import time
 
+from geometry_msgs.msg import Point, Pose, PoseStamped, Quaternion, Twist, Vector3
 import rclpy
 from rclpy.node import Node
-
-from geometry_msgs.msg import Point, Pose, PoseStamped, Quaternion, Twist, Vector3
 from simulation_interfaces.msg import EntityState, Resource, Result
 from simulation_interfaces.srv import (
     GetEntityState,
@@ -47,12 +46,12 @@ from simulation_interfaces.srv import (
 # The size is now used to ensure proper placement on the tray.
 OBJECTS_TO_SPAWN = [
     {
-        "uri": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2",
-        "size": [0.06, 0.06, 0.087],
+        'uri': 'https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2',
+        'size': [0.06, 0.06, 0.087],
     },
     {
-        "uri": "https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1",
-        "size": [0.10320000000000007, 0.1032, 0.0717],
+        'uri': 'https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 3d v1',
+        'size': [0.10320000000000007, 0.1032, 0.0717],
     },
 ]
 
@@ -71,57 +70,47 @@ class ConveyorController(Node):
     """
 
     def __init__(self):
-        super().__init__("conveyor_controller")
+        super().__init__('conveyor_controller')
 
         self.declare_parameters(
-            namespace="",
+            namespace='',
             parameters=[
-                ("inspection_time", 5.0),
-                ("tray_speed", 0.5),
-                ("inspection_x_position", 0.1),
-                ("tray_name", "tray"),
-                ("num_objects_to_spawn", 4),
-                ("tray_width", 0.4),
-                ("tray_depth", 0.5),
+                ('inspection_time', 5.0),
+                ('tray_speed', 0.5),
+                ('inspection_x_position', 0.1),
+                ('tray_name', 'tray'),
+                ('num_objects_to_spawn', 4),
+                ('tray_width', 0.4),
+                ('tray_depth', 0.5),
             ],
         )
 
         # Create clients for the required simulation services
-        self._spawn_client = self.create_client(SpawnEntity, "/gzserver/spawn_entity")
-        self._set_state_client = self.create_client(
-            SetEntityState, "/gzserver/set_entity_state"
-        )
-        self._get_state_client = self.create_client(
-            GetEntityState, "/gzserver/get_entity_state"
-        )
-        self._reset_sim_client = self.create_client(
-            ResetSimulation, "/gzserver/reset_simulation"
-        )
+        self._spawn_client = self.create_client(SpawnEntity, '/gzserver/spawn_entity')
+        self._set_state_client = self.create_client(SetEntityState, '/gzserver/set_entity_state')
+        self._get_state_client = self.create_client(GetEntityState, '/gzserver/get_entity_state')
+        self._reset_sim_client = self.create_client(ResetSimulation, '/gzserver/reset_simulation')
         self.spawned_object_names = []
 
         self.wait_for_services()
 
     def wait_for_services(self):
-        """Blocks until all required simulation services are available."""
-        self.get_logger().info("Waiting for simulation services...")
+        """Block until all required simulation services are available."""
+        self.get_logger().info('Waiting for simulation services...')
         services = {
-            "spawn": self._spawn_client,
-            "set_state": self._set_state_client,
-            "get_state": self._get_state_client,
-            "reset": self._reset_sim_client,
+            'spawn': self._spawn_client,
+            'set_state': self._set_state_client,
+            'get_state': self._get_state_client,
+            'reset': self._reset_sim_client,
         }
         for name, client in services.items():
             while not client.wait_for_service(timeout_sec=1.0):
-                self.get_logger().warning(
-                    f'Service "{name}" not available, waiting again...'
-                )
-        self.get_logger().info("All simulation services are available.")
+                self.get_logger().warning(f'Service "{name}" not available, waiting again...')
+        self.get_logger().info('All simulation services are available.')
 
     def run_full_cycle(self):
-        """
-        Runs one complete simulation cycle synchronously.
-        """
-        self.get_logger().info("--- Starting new conveyor cycle ---")
+        """Run one complete simulation cycle synchronously."""
+        self.get_logger().info('--- Starting new conveyor cycle ---')
         try:
             # 1. Reset the simulation to a clean state
             self.reset_simulation()
@@ -140,65 +129,61 @@ class ConveyorController(Node):
             # 5. Stop the tray for inspection
             self.set_tray_velocity(is_moving=False)
             inspection_time = (
-                self.get_parameter("inspection_time").get_parameter_value().double_value
+                self.get_parameter('inspection_time').get_parameter_value().double_value
             )
-            self.get_logger().info(
-                f"Waiting for {inspection_time} seconds for inspection..."
-            )
+            self.get_logger().info(f'Waiting for {inspection_time} seconds for inspection...')
             time.sleep(inspection_time)
 
         except (RuntimeError, KeyboardInterrupt) as e:
-            self.get_logger().error(f"An error occurred during the cycle: {e}")
-            self.get_logger().info("Shutting down node.")
+            self.get_logger().error(f'An error occurred during the cycle: {e}')
+            self.get_logger().info('Shutting down node.')
             raise e  # Re-raise to stop the main loop
         except Exception as e:
-            self.get_logger().error(f"An unexpected error occurred: {e}")
-            self.get_logger().info("Attempting a new cycle after a delay...")
+            self.get_logger().error(f'An unexpected error occurred: {e}')
+            self.get_logger().info('Attempting a new cycle after a delay...')
             time.sleep(5.0)
 
     def reset_simulation(self):
-        """Calls the reset_simulation service."""
+        """Call the reset_simulation service."""
         request = ResetSimulation.Request()
         request.scope = ResetSimulation.Request.SCOPE_ALL
-        self.get_logger().info("Resetting simulation...")
+        self.get_logger().info('Resetting simulation...')
 
         future = self._reset_sim_client.call_async(request)
         rclpy.spin_until_future_complete(self, future)
 
         response_raw = future.result()
         if response_raw is None:
-            error_msg = "Failed to get response from reset_simulation service."
+            error_msg = 'Failed to get response from reset_simulation service.'
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
         response: ResetSimulation.Response = response_raw
 
         if response.result.result != Result.RESULT_OK:
-            error_msg = f"Failed to reset simulation: {response.result.error_message}"
+            error_msg = f'Failed to reset simulation: {response.result.error_message}'
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
 
         self.spawned_object_names.clear()
-        self.get_logger().info("Simulation reset successfully.")
+        self.get_logger().info('Simulation reset successfully.')
 
     def _is_overlapping(self, pos1, size1, pos2, size2):
-        """Checks if two axis-aligned bounding boxes overlap in 2D (x, y)."""
+        """Check if two axis-aligned bounding boxes overlap in 2D (x, y)."""
         x1, y1 = pos1
         w1, d1 = size1
         x2, y2 = pos2
         w2, d2 = size2
         if abs(x1 - x2) * 2 >= (w1 + w2):
             return False
-        if abs(y1 - y2) * 2 >= (d1 + d2):
-            return False
-        return True
+        return not abs(y1 - y2) * 2 >= d1 + d2
 
     def get_tray_pose(self) -> Pose:
-        """Gets the current pose of the tray in the world frame."""
+        """Get the current pose of the tray in the world frame."""
         return self.get_tray_state().pose
 
     def get_tray_state(self) -> EntityState:
-        """Gets the current state of the tray in the world frame."""
-        tray_name = self.get_parameter("tray_name").value
+        """Get the current state of the tray in the world frame."""
+        tray_name = self.get_parameter('tray_name').value
         request = GetEntityState.Request(entity=tray_name)
 
         future = self._get_state_client.call_async(request)
@@ -206,9 +191,7 @@ class ConveyorController(Node):
 
         response_raw = future.result()
         if response_raw is None:
-            error_msg = (
-                f"Failed to get response from get_entity_state for '{tray_name}'."
-            )
+            error_msg = f"Failed to get response from get_entity_state for '{tray_name}'."
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
         response: GetEntityState.Response = response_raw
@@ -216,20 +199,16 @@ class ConveyorController(Node):
         if response.result.result == Result.RESULT_OK:
             return response.state
         else:
-            error_msg = (
-                f"Could not get pose for '{tray_name}': {response.result.error_message}"
-            )
+            error_msg = f"Could not get pose for '{tray_name}': {response.result.error_message}"
             self.get_logger().error(error_msg)
             raise RuntimeError(error_msg)
 
     def spawn_objects(self):
-        """
-        Spawns objects onto the tray, ensuring they are within bounds and do not overlap.
-        """
-        num_objects = self.get_parameter("num_objects_to_spawn").value
-        tray_width = self.get_parameter("tray_width").value
-        tray_depth = self.get_parameter("tray_depth").value
-        self.get_logger().info(f"Attempting to spawn {num_objects} objects...")
+        """Spawn objects onto the tray, ensuring they are within bounds and do not overlap."""
+        num_objects = self.get_parameter('num_objects_to_spawn').value
+        tray_width = self.get_parameter('tray_width').value
+        tray_depth = self.get_parameter('tray_depth').value
+        self.get_logger().info(f'Attempting to spawn {num_objects} objects...')
 
         # Get the tray's pose in the world frame to calculate absolute spawn coordinates
         tray_pose = self.get_tray_pose()
@@ -241,7 +220,7 @@ class ConveyorController(Node):
             is_placed = False
             for _ in range(MAX_PLACEMENT_ATTEMPTS):
                 object_to_spawn = random.choice(OBJECTS_TO_SPAWN)
-                obj_size_x, obj_size_y, _ = object_to_spawn["size"]
+                obj_size_x, obj_size_y, _ = object_to_spawn['size']
 
                 half_x = obj_size_x / 2.0
                 half_y = obj_size_y / 2.0
@@ -255,12 +234,12 @@ class ConveyorController(Node):
                 current_pos = (relative_pos_x, relative_pos_y)
                 current_size = (obj_size_x, obj_size_y)
                 has_collision = any(
-                    self._is_overlapping(current_pos, current_size, p["pos"], p["size"])
+                    self._is_overlapping(current_pos, current_size, p['pos'], p['size'])
                     for p in placed_objects
                 )
 
                 if not has_collision:
-                    object_name = f"spawned_object_{i}"
+                    object_name = f'spawned_object_{i}'
                     yaw = random.uniform(0, 2 * math.pi)
                     quat = self.yaw_to_quaternion(yaw)
 
@@ -273,11 +252,11 @@ class ConveyorController(Node):
                     request = SpawnEntity.Request()
                     request.name = object_name
                     request.allow_renaming = True
-                    request.entity_resource = Resource(uri=object_to_spawn["uri"])
+                    request.entity_resource = Resource(uri=object_to_spawn['uri'])
 
                     # Set the initial pose in the world frame
                     pose_stamped = PoseStamped()
-                    pose_stamped.header.frame_id = ""  # Empty means world frame
+                    pose_stamped.header.frame_id = ''  # Empty means world frame
                     pose_stamped.pose = Pose(
                         position=Point(x=world_x, y=world_y, z=world_z),
                         orientation=quat,
@@ -293,18 +272,17 @@ class ConveyorController(Node):
                     response_raw = future.result()
                     if response_raw is None:
                         self.get_logger().error(
-                            f"Failed to get response from spawn_entity service for '{object_name}'."
+                            f"Failed to get response from \
+                              spawn_entity service for '{object_name}'."
                         )
                         continue
                     response: SpawnEntity.Response = response_raw
 
                     if response.result.result == Result.RESULT_OK:
                         self.get_logger().info(
-                            f"Successfully spawned entity with name: {response.entity_name}"
+                            f'Successfully spawned entity with name: {response.entity_name}'
                         )
-                        placed_objects.append(
-                            {"pos": current_pos, "size": current_size}
-                        )
+                        placed_objects.append({'pos': current_pos, 'size': current_size})
                         self.spawned_object_names.append(response.entity_name)
                         is_placed = True
                         break
@@ -314,12 +292,12 @@ class ConveyorController(Node):
                         )
 
             if not is_placed:
-                self.get_logger().warning(f"Could not place object {i + 1}, skipping.")
+                self.get_logger().warning(f'Could not place object {i + 1}, skipping.')
 
     def set_tray_velocity(self, is_moving: bool):
-        """Sets the linear velocity of the tray."""
-        tray_name = self.get_parameter("tray_name").value
-        speed = self.get_parameter("tray_speed").value
+        """Set the linear velocity of the tray."""
+        tray_name = self.get_parameter('tray_name').value
+        speed = self.get_parameter('tray_speed').value
         request = SetEntityState.Request()
         request.entity = tray_name
 
@@ -334,10 +312,10 @@ class ConveyorController(Node):
         # Because the tray is a dynamic object travelling on a frictionless surface,
         # it will not achieve the desired velocity with a single command.
         # The behavior also seems to be dependent on the RTF of the simulation.
-        # To achieve a consistent behavior, we implement a trivial closed loop control on the velocity.
+        # To achieve a consistent behavior, we implement a trivial closed loop
+        # control on the velocity.
         MAX_VELOCITY_SET_ATTEMPTS = 100
-        for i in range(MAX_VELOCITY_SET_ATTEMPTS):
-            tray_pose = self.get_tray_pose()
+        for _i in range(MAX_VELOCITY_SET_ATTEMPTS):
             request.state = EntityState(
                 pose=self.get_tray_pose(), twist=Twist(linear=linear_velocity)
             )
@@ -346,15 +324,13 @@ class ConveyorController(Node):
 
             response_raw = future.result()
             if response_raw is None:
-                error_msg = "Failed to get response from set_entity_state service."
+                error_msg = 'Failed to get response from set_entity_state service.'
                 self.get_logger().error(error_msg)
                 raise RuntimeError(error_msg)
             response: SetEntityState.Response = response_raw
 
             if response.result.result != Result.RESULT_OK:
-                error_msg = (
-                    f"Failed to set tray velocity: {response.result.error_message}"
-                )
+                error_msg = f'Failed to set tray velocity: {response.result.error_message}'
                 self.get_logger().error(error_msg)
                 raise RuntimeError(error_msg)
 
@@ -364,12 +340,10 @@ class ConveyorController(Node):
                 break
 
     def monitor_tray_position(self):
-        """Synchronously polls the tray's position until it reaches the target."""
-        tray_name = self.get_parameter("tray_name").value
-        inspection_x = self.get_parameter("inspection_x_position").value
-        self.get_logger().info(
-            f"Monitoring '{tray_name}' until it reaches x={inspection_x}..."
-        )
+        """Poll the tray's position until it reaches the target."""
+        tray_name = self.get_parameter('tray_name').value
+        inspection_x = self.get_parameter('inspection_x_position').value
+        self.get_logger().info(f"Monitoring '{tray_name}' until it reaches x={inspection_x}...")
 
         while rclpy.ok():
             request = GetEntityState.Request(entity=tray_name)
@@ -388,7 +362,7 @@ class ConveyorController(Node):
                 current_x = response.state.pose.position.x
                 if current_x >= inspection_x:
                     self.get_logger().info(
-                        f"Tray has reached inspection point at x={current_x:.2f}."
+                        f'Tray has reached inspection point at x={current_x:.2f}.'
                     )
                     break
             elif response:
@@ -401,7 +375,7 @@ class ConveyorController(Node):
 
     @staticmethod
     def yaw_to_quaternion(yaw: float) -> Quaternion:
-        """Converts a yaw angle (in radians) to a quaternion."""
+        """Convert a yaw angle (in radians) to a quaternion."""
         return Quaternion(x=0.0, y=0.0, z=math.sin(yaw / 2.0), w=math.cos(yaw / 2.0))
 
 
@@ -413,7 +387,7 @@ def main(args=None):
         while rclpy.ok():
             conveyor_controller.run_full_cycle()
     except (KeyboardInterrupt, RuntimeError):
-        print("\nShutting down conveyor controller.")
+        print('\nShutting down conveyor controller.')
     finally:
         if conveyor_controller:
             conveyor_controller.destroy_node()
@@ -421,5 +395,5 @@ def main(args=None):
             rclpy.shutdown()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

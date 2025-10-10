@@ -51,3 +51,22 @@ Terminal 2
 ```bash
 ros2 run sim_ifaces_demo conveyor_controller
 ```
+
+This will start the demo inside the Jetty Demo world as shown below:
+
+![sim_ifaces_jetty_demo](https://github.com/user-attachments/assets/a26decf4-30eb-44b5-bbd6-214e67b84497)
+
+You can edit `sim_ifaces_demo/launch/demo.launch.xml` and set the
+`world_sdf_file` to `$(find-pkg-share jetty_demo)/worlds/sim_ifaces_demo.sdf`.
+That is
+
+```xml
+...
+<gz_server world_sdf_file="$(find-pkg-share jetty_demo)/worlds/sim_ifaces_demo.sdf"/>
+...
+
+```
+
+This will run the demo inside an empty world as shown below:
+
+![sim_ifaces](https://github.com/user-attachments/assets/bcb7fe49-0639-432c-8827-a131b179d3a0)

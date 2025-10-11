@@ -23,7 +23,7 @@ rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.l
 ![](media/jetty_rmf_demo.png)
 
 ```bash
-rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo demo.launch.xml
+rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo rmf_demo.launch.xml
 ```
 
 Don't forget to hit the Play button to run the sim before starting the tasks below.

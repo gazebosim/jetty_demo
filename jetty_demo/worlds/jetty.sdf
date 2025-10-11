@@ -2504,5 +2504,9 @@
       <pose>18.1437 -25.2694 0.0000 0.0000 0.0000 0.0000</pose>
     </include>
 
+    <include merge="true">
+      <pose>0 -5 0  0 0 0</pose>
+      <uri>sim_ifaces_demo.sdf</uri>
+    </include>
   </world>
 </sdf>

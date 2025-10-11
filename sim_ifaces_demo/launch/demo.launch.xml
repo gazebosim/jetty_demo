@@ -1,0 +1,8 @@
+<launch>
+    <!-- <gz_server world_sdf_file="$(find-pkg-share jetty_demo)/worlds/sim_ifaces_demo.sdf"/> -->
+    <gz_server world_sdf_file="$(find-pkg-share jetty_demo)/worlds/jetty.sdf"/>
+
+    <!-- Start Gazebo GUI Client using an executable tag -->
+    <executable cmd="gz sim -g --gui-config=$(find-pkg-share sim_ifaces_demo)/config/gui.config" output="screen"/>
+</launch>
+

@@ -11,7 +11,7 @@ RUN mkdir -p /ws_jetty/src \
     && cd /ws_jetty/src
 # TODO(ac): update branch once it is merged
 RUN mkdir -p /ws_jetty/src/jetty_demo \
-    && curl -L https://github.com/gazebosim/jetty_demo/archive/main.tar.gz -o jetty_demo.tar.gz \
+    && curl -L https://github.com/gazebosim/jetty_demo/archive/iche033/rmf_zenoh.tar.gz -o jetty_demo.tar.gz \
     && tar zxf jetty_demo.tar.gz -C /ws_jetty/src/jetty_demo --strip-components=1 \
     && rm jetty_demo.tar.gz
 RUN vcs import /ws_jetty/src < /ws_jetty/src/jetty_demo/docker/rmf.repos

@@ -30,5 +30,3 @@ RUN apt-get clean \
 RUN sed --in-place \
         --expression '$isource "/ws_jetty/install/setup.bash"' \
         /ros_entrypoint.sh
-
-ENV RMW_IMPLEMENTATION=rmw_zenoh_cpp

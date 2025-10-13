@@ -17,6 +17,8 @@
   <arg name="use_simulator" default="true"/>
   <arg name="use_unique_hex_string_with_task_id" default="true" description="Appends a unique hex string to the task ID"/>
 
+  <set_env name="RMW_IMPLEMENTATION" value="rmw_zenoh_cpp"/>
+
   <!-- Zenoh Router -->
   <node pkg="rmw_zenoh_cpp" exec="rmw_zenohd" output="both" name="rmw_zenohd"/>
 

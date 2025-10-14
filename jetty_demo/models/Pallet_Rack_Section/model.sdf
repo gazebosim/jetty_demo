@@ -5,7 +5,7 @@
       <visual name="base_visual">
         <geometry>
           <mesh>
-            <uri>base_visual.glb</uri>
+            <uri>base_visual.gltf</uri>
           </mesh>
         </geometry>
       </visual>

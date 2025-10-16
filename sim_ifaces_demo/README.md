@@ -1,7 +1,7 @@
 # ROS 2 Simulation Interfaces Demo: Object Inspection in Jetty World
 
 This demo showcases the practical application of the
-[ROS 2 Simulation Interfaces](https://github.com/ros-simulation/simulation_interfaces)
+[ROS 2 Simulation Interfaces](https://gazebosim.org/docs/jetty/ros2_sim_interfaces/)
 within a simulated environment. These interfaces provide a standardized,
 simulator-agnostic set of ROS 2 service, message, and action definitions for
 controlling and interacting with various simulation platforms.

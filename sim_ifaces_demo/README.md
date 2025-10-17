@@ -56,7 +56,8 @@ ros2 run sim_ifaces_demo conveyor_controller
 
 ### Rocker (Docker)
 
-You can use rocker to launch the demo from the `jetty_demo` docker image.
+You can use [rocker](https://github.com/osrf/rocker) to launch the demo
+using the `jetty_demo` docker image.
 
 Terminal 1
 

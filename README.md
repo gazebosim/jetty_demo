@@ -22,10 +22,9 @@ rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.l
 
 The demos showcase new features in Gazebo Jetty.
 
-The [jetty.sdf world file](https://github.com/gazebosim/jetty_demo/blob/main/jetty_demo/worlds/jetty.sdf)
-contains descriptions of a couple of demos without the need to set up
-and build a workspace, namely
-for running
+The [jetty.sdf](https://github.com/gazebosim/jetty_demo/blob/main/jetty_demo/worlds/jetty.sdf)
+world file contains descriptions of a couple of demos without the need to set up
+and build a workspace, namely:
   * Mass based automatic inertia computation
   * Look-up wheel slip plugin
 

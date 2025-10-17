@@ -61,7 +61,7 @@ You can use rocker to launch the demo from the `jetty_demo` docker image.
 Terminal 1
 
 ```bash
-rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main sim_ifaces_demo demo.launch.xml
+rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch sim_ifaces_demo demo.launch.xml
 ```
 
 Terminal 2

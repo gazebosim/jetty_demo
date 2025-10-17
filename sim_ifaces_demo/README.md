@@ -40,6 +40,8 @@ the objects on the tray such that they are not initially in contact.
 
 ## Running the Demo
 
+### Local workspace
+
 Terminal 1
 
 ```bash
@@ -49,6 +51,30 @@ ros2 launch sim_ifaces_demo demo.launch.xml
 Terminal 2
 
 ```bash
+ros2 run sim_ifaces_demo conveyor_controller
+```
+
+### Rocker (Docker)
+
+You can use [rocker](https://github.com/osrf/rocker) to launch the demo
+using the `jetty_demo` docker image.
+
+Terminal 1
+
+```bash
+rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch sim_ifaces_demo demo.launch.xml
+```
+
+Terminal 2
+
+```bash
+# Get the container ID
+docker ps
+
+# Exec into the container ID
+docker exec -it <CONTAINER_ID> bash
+
+source /ws_jetty/install/setup.bash
 ros2 run sim_ifaces_demo conveyor_controller
 ```
 

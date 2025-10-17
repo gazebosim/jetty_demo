@@ -3,7 +3,7 @@ Jetty demo world and resources
 
 ![](media/jetty_demo_world.png)
 
-Quick Start:
+## Quick Start:
 
 ```bash
 git clone https://github.com/gazebosim/jetty_demo
@@ -17,6 +17,35 @@ Or launch it from [rocker](https://github.com/osrf/rocker?tab=readme-ov-file#ins
 ```bash
 rocker --x11 -- ghcr.io/gazebosim/jetty_demo:main ros2 launch jetty_demo world.launch.xml
 ```
+
+## Demos
+
+The demos showcase new features in Gazebo Jetty.
+
+The [jetty.sdf](https://github.com/gazebosim/jetty_demo/blob/main/jetty_demo/worlds/jetty.sdf)
+world file contains descriptions of a couple of demos without the need to set up
+and build a workspace, namely:
+  * Mass based automatic inertia computation
+  * Look-up wheel slip plugin
+
+Just launch the world and follow in the instructions in the world file.
+
+More complex demos are listed below.
+
+### ROS 2 Simulation Interfaces demo
+
+A demo showcasing the use of the ROS 2 simulation interfaces for interacting
+with Gazebo.
+
+See [sim_iface_demo/README.md](https://github.com/gazebosim/jetty_demo/blob/main/sim_ifaces_demo/README.md)
+for instructions on how to run the demo.
+
+### Bzlmod demo
+
+A demo using the bazel module system for building and running a client program
+that talks to Gazebo.
+
+For more info, see https://github.com/shameekganguly/jetty_bazel_demo
 
 ### Launching the Open-RMF demo
 
@@ -56,9 +85,8 @@ ros2 launch jetty_demo world.launch.xml
 
 ## Performance notes
 
-It can take up to 1~2 minutes to load the world with all the models.
-The GUI will be non-responsive during this time, see
-https://github.com/gazebosim/jetty_demo/issues/3
+It can take some time to load the world with all the models.
+The GUI will be non-responsive during this time.
 
 To speed up loading the demo world, you can comment out different models
 in the world, which helps improve startup time and RTF.
